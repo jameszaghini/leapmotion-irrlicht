@@ -63,7 +63,7 @@ void CPlayState::CreateSphere(const btVector3 &TPosition, btScalar TRadius, btSc
 	scene::ISceneNode *Node = smgr->addSphereSceneNode(TRadius, 32);
 	Node->setMaterialFlag(video::EMF_LIGHTING, 1);
 	Node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-	Node->setMaterialTexture(0, driver->getTexture("fire.bmp"));
+	Node->setMaterialTexture(0, driver->getTexture("concrete-1.jpg"));
 	
 	// Set the initial position of the object
 	btTransform Transform;

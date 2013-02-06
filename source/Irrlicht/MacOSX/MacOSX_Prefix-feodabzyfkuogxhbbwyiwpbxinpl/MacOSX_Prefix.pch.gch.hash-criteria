@@ -1,0 +1,19 @@
+Contents of /Users/jim/Developer/leap-irrlicht/source/Irrlicht/MacOSX/MacOSX_Prefix.pch
+4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2336.11.00)
+i686-apple-darwin11
+-x
+c
+-arch
+x86_64
+-fmessage-length=0
+-pipe
+-fpascal-strings
+-O0
+-fasm-blocks
+-gdwarf-2
+-I/Users/jim/Developer/leap-irrlicht/source/Irrlicht/MacOSX/build/Debug/include
+-I../../../include
+-F/Users/jim/Developer/leap-irrlicht/source/Irrlicht/MacOSX/build/Debug
+-DMACOSX
+-D_DEBUG
+SDK_PRODUCT_BUILD_VERSION=12C60

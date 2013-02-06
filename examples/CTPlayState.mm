@@ -213,7 +213,11 @@ void CPlayState::Init(CGameEngine* game)
 	scene::IAnimatedMeshSceneNode* node = 0;
 	scene::IMeshSceneNode *node2 = 0;
 
-	gunNode = smgr->addAnimatedMeshSceneNode(smgr->getMesh("/Users/jim/Developer/leap-irrlicht/source/Irrlicht/MacOSX/Hand1.b3d"), 0, 0 | 0);
+	
+    [[NSFileManager defaultManager]
+     changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
+    
+	gunNode = smgr->addAnimatedMeshSceneNode(smgr->getMesh("Hand1.b3d"), 0, 0 | 0);
 	gunNode->setPosition(core::vector3df(6,-11,8)); // Put its feet on the floor.
 	gunNode->setRotation(core::vector3df(150,0,340));
 	gunNode->setScale(core::vector3df(5, 5, 5)); // Make it appear realistically scaled

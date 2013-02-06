@@ -6,20 +6,6 @@
 	objectVersion = 42;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		B81CFFC6097FE9980057C06F /* All */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = B81CFFE8097FE9C30057C06F /* Build configuration list for PBXAggregateTarget "All" */;
-			buildPhases = (
-			);
-			dependencies = (
-				4CA5CB860A4868B500ADB3D7 /* PBXTargetDependency */,
-			);
-			name = All;
-			productName = ALL;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		090FBC820D31085E0076D847 /* CVolumeLightSceneNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 090FBC800D31085E0076D847 /* CVolumeLightSceneNode.cpp */; };
 		090FBC830D31085E0076D847 /* CVolumeLightSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 090FBC810D31085E0076D847 /* CVolumeLightSceneNode.h */; };
@@ -926,13 +912,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4CA5CB850A4868B500ADB3D7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B81CFEC2097FDF020057C06F;
-			remoteInfo = TerrainRendering;
-		};
 		B81CFEC4097FDF020057C06F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -1484,7 +1463,7 @@
 		4C53E73A0A485CD80014E966 /* jquant2.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = jquant2.c; sourceTree = "<group>"; };
 		4C53E73B0A485CD80014E966 /* jutils.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = jutils.c; sourceTree = "<group>"; };
 		4C6DC9B60A48715A0017A6E5 /* inflate.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = inflate.c; sourceTree = "<group>"; };
-		4CA25BAA0A485D9800B4E469 /* TerrainRendering_dbg.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TerrainRendering_dbg.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CA25BAA0A485D9800B4E469 /* LeapDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LeapDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CC36B0D0A6B61DB0076C4B2 /* CSphereSceneNode.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CSphereSceneNode.cpp; sourceTree = "<group>"; };
 		4CC36B0E0A6B61DB0076C4B2 /* CSphereSceneNode.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CSphereSceneNode.h; sourceTree = "<group>"; };
 		4CFA7BDC0A88735900B03626 /* CImageLoaderBMP.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 2; path = CImageLoaderBMP.cpp; sourceTree = "<group>"; };
@@ -2755,7 +2734,7 @@
 			isa = PBXGroup;
 			children = (
 				4C53E24D0A4850120014E966 /* libIrrlicht.a */,
-				4CA25BAA0A485D9800B4E469 /* TerrainRendering_dbg.app */,
+				4CA25BAA0A485D9800B4E469 /* LeapDebug.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3115,9 +3094,9 @@
 			productReference = 959726FD12C18FFC00BF73D3 /* IrrFramework.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		B81CFEC2097FDF020057C06F /* 12.TerrainRendering */ = {
+		B81CFEC2097FDF020057C06F /* Leap */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B81CFECD097FDF020057C06F /* Build configuration list for PBXNativeTarget "12.TerrainRendering" */;
+			buildConfigurationList = B81CFECD097FDF020057C06F /* Build configuration list for PBXNativeTarget "Leap" */;
 			buildPhases = (
 				B81CFEC5097FDF020057C06F /* Resources */,
 				B81CFEC7097FDF020057C06F /* Sources */,
@@ -3128,9 +3107,9 @@
 			dependencies = (
 				B81CFEC3097FDF020057C06F /* PBXTargetDependency */,
 			);
-			name = 12.TerrainRendering;
+			name = Leap;
 			productName = DemoApp;
-			productReference = 4CA25BAA0A485D9800B4E469 /* TerrainRendering_dbg.app */;
+			productReference = 4CA25BAA0A485D9800B4E469 /* LeapDebug.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D2AAC07D0554694100DB518D /* libIrrlicht.a */ = {
@@ -3171,8 +3150,7 @@
 			projectRoot = "";
 			targets = (
 				D2AAC07D0554694100DB518D /* libIrrlicht.a */,
-				B81CFEC2097FDF020057C06F /* 12.TerrainRendering */,
-				B81CFFC6097FE9980057C06F /* All */,
+				B81CFEC2097FDF020057C06F /* Leap */,
 				959726FC12C18FFB00BF73D3 /* IrrFramework */,
 			);
 		};
@@ -3857,11 +3835,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4CA5CB860A4868B500ADB3D7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B81CFEC2097FDF020057C06F /* 12.TerrainRendering */;
-			targetProxy = 4CA5CB850A4868B500ADB3D7 /* PBXContainerItemProxy */;
-		};
 		B81CFEC3097FDF020057C06F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D2AAC07D0554694100DB518D /* libIrrlicht.a */;
@@ -4042,12 +4015,13 @@
 				INSTALL_PATH = /;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"../../../include/**",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"/Users/jim/Developer/leap-irrlicht/include/FMOD Programmers API/api\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"/Users/james/Developer/irllicht-bullet-liveleapmotion-fmod/include/FMOD Programmers API/api\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../..\"";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -4057,7 +4031,7 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = TerrainRendering_dbg;
+				PRODUCT_NAME = LeapDebug;
 				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
@@ -4089,12 +4063,13 @@
 				INSTALL_PATH = /;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"../../../include/**",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"/Users/jim/Developer/leap-irrlicht/include/FMOD Programmers API/api\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"/Users/james/Developer/irllicht-bullet-liveleapmotion-fmod/include/FMOD Programmers API/api\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../..\"";
 				ONLY_ACTIVE_ARCH = YES;
 				ONLY_LINK_ESSENTIAL_SYMBOLS = YES;
@@ -4105,34 +4080,12 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = TerrainRendering;
+				PRODUCT_NAME = Leap;
 				SDKROOT = macosx;
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		B81CFFE9097FE9C30057C06F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = ALL;
-			};
-			name = Debug;
-		};
-		B81CFFEA097FE9C30057C06F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				PRODUCT_NAME = ALL;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -4167,20 +4120,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B81CFECD097FDF020057C06F /* Build configuration list for PBXNativeTarget "12.TerrainRendering" */ = {
+		B81CFECD097FDF020057C06F /* Build configuration list for PBXNativeTarget "Leap" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B81CFECE097FDF020057C06F /* Debug */,
 				B81CFECF097FDF020057C06F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B81CFFE8097FE9C30057C06F /* Build configuration list for PBXAggregateTarget "All" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B81CFFE9097FE9C30057C06F /* Debug */,
-				B81CFFEA097FE9C30057C06F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

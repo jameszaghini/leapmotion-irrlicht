@@ -20,14 +20,17 @@ static int GetRandInt(int TMax) { return rand() % TMax; }
 CPlayState CPlayState::m_PlayState;
 
 // Create a box rigid body
-void CPlayState::CreateBox(const btVector3 &TPosition, const core::vector3df &TScale, btScalar TMass) {
+void CPlayState::CreateBox(const btVector3 &TPosition, const core::vector3df &TScale, btScalar TMass, std::string textureFile) {
 	
 	// Create an Irrlicht cube
 	scene::ISceneNode *Node = smgr->addCubeSceneNode(1.0f);
 	Node->setScale(TScale);
 	Node->setMaterialFlag(video::EMF_LIGHTING, 1);
 	Node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-	Node->setMaterialTexture(0, driver->getTexture("concrete-1.jpg"));
+	
+	io::path texturePath = textureFile.c_str();
+	
+	Node->setMaterialTexture(0, driver->getTexture(texturePath));
 	
 	// Set the initial position of the object
 	btTransform Transform;
@@ -63,7 +66,7 @@ void CPlayState::CreateSphere(const btVector3 &TPosition, btScalar TRadius, btSc
 	scene::ISceneNode *Node = smgr->addSphereSceneNode(TRadius, 32);
 	Node->setMaterialFlag(video::EMF_LIGHTING, 1);
 	Node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-	Node->setMaterialTexture(0, driver->getTexture("concrete-1.jpg"));
+	Node->setMaterialTexture(0, driver->getTexture("water.jpg"));
 	
 	// Set the initial position of the object
 	btTransform Transform;
@@ -221,9 +224,9 @@ void CPlayState::Init(CGameEngine* game)
      changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
     
 	gunNode = smgr->addAnimatedMeshSceneNode(smgr->getMesh("Hand1.b3d"), 0, 0 | 0);
-	gunNode->setPosition(core::vector3df(6,-11,38)); // Put its feet on the floor.
+	gunNode->setPosition(core::vector3df(6,-11,30)); 
 	gunNode->setRotation(core::vector3df(150,0,340));
-	gunNode->setScale(core::vector3df(8, 8, 8)); // Make it appear realistically scaled
+	gunNode->setScale(core::vector3df(9, 9, 9));
 	gunNode->setMD2Animation(scene::EMAT_POINT);
 	gunNode->setAnimationSpeed(20.f);
 	
@@ -240,8 +243,8 @@ void CPlayState::Init(CGameEngine* game)
      changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
 
 	
-	CreateBox(btVector3(0.0f, -50.0f, 0.0f), core::vector3df(20.0f, 1.0f, 20.0f), 0.0f);
-	CreateBox(btVector3(0.0f, -72.0f, 0.0f), core::vector3df(100.0f, 1.0f, 100.0f), 0.0f);
+	CreateBox(btVector3(0.0f, -50.0f, 0.0f), core::vector3df(20.0f, 1.0f, 20.0f), 0.0f, "concrete-1.jpg");
+	CreateBox(btVector3(0.0f, -72.0f, 0.0f), core::vector3df(100.0f, 1.0f, 100.0f), 0.0f, "concrete-1.jpg");
 }
 
 void CPlayState::Cleanup()
@@ -313,21 +316,41 @@ void CPlayState::HandleEvents(CGameEngine* game)
 	printf("%f, %f, %f\n", rotation.X, rotation.Y, rotation.Z);
 	
 	if(game->receiver.IsKeyPressed(KEY_KEY_X)) {
-		gunNode->setRotation(core::vector3df(rotation.X + 10, rotation.Y, rotation.Z));
+		float x = rotation.X + 10;
+		if(x>360) x -= 360;
+		gunNode->setRotation(core::vector3df(x, rotation.Y, rotation.Z));
 	}
 	if(game->receiver.IsKeyPressed(KEY_KEY_Y)) {
-		gunNode->setRotation(core::vector3df(rotation.X, rotation.Y+10, rotation.Z));
+		float y = rotation.Y + 10;
+		if(y>360) y -= 360;
+		gunNode->setRotation(core::vector3df(rotation.X, y, rotation.Z));
 	}
 	if(game->receiver.IsKeyPressed(KEY_KEY_Z)) {
-		gunNode->setRotation(core::vector3df(rotation.X, rotation.Y, rotation.Z+10));
+		float z = rotation.Z + 10;
+		if(z>360) z -= 360;
+		gunNode->setRotation(core::vector3df(rotation.X, rotation.Y, z));
 	}
-	
+	if(game->receiver.IsKeyPressed(KEY_KEY_J)) {
+		float x = rotation.X - 10;
+		if(x<0) x += 360;
+		gunNode->setRotation(core::vector3df(x, rotation.Y, rotation.Z));
+	}
+	if(game->receiver.IsKeyPressed(KEY_KEY_K)) {
+		float y = rotation.Y - 10;
+		if(y<0) y += 360;
+		gunNode->setRotation(core::vector3df(rotation.X, y, rotation.Z));
+	}
+	if(game->receiver.IsKeyPressed(KEY_KEY_L)) {
+		float z = rotation.Z - 10;
+		if(z<0) z += 360;
+		gunNode->setRotation(core::vector3df(rotation.X, rotation.Y, z));
+	}
     if(game->receiver.IsKeyDown(KEY_ESCAPE)) {
         exit(0);
     }
     
     if(game->receiver.IsKeyDown(KEY_KEY_O)) {
-		CreateBox(btVector3(GetRandInt(10) - 5.0f, 50.0f, GetRandInt(10) - 5.0f), core::vector3df(GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f), 1.0f);     
+		CreateBox(btVector3(GetRandInt(10) - 5.0f, 50.0f, GetRandInt(10) - 5.0f), core::vector3df(GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f), 1.0f, "stones.jpg");
     }
 	
     if(game->receiver.IsKeyDown(KEY_KEY_I)) {
@@ -336,7 +359,7 @@ void CPlayState::HandleEvents(CGameEngine* game)
 	
     if(game->receiver.GetMouseState().RightButtonPressed) {
 		printf("rmb pressed\n");
-		CreateBox(btVector3(GetRandInt(10) - 5.0f, 50.0f, GetRandInt(10) - 5.0f), core::vector3df(GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f), 1.0f);
+		CreateBox(btVector3(GetRandInt(10) - 5.0f, 50.0f, GetRandInt(10) - 5.0f), core::vector3df(GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f), 1.0f, "stones.jpg");
 
     }
 
@@ -415,17 +438,13 @@ void CPlayState::Draw(CGameEngine* game)
 //                      [normal roll] * LEAP_RAD_TO_DEG,
 //                      [direction yaw] * LEAP_RAD_TO_DEG);
                 
-                float x = (direction.pitch() * RAD_TO_DEG * 2 * -1) + 135;
-                float y = (normal.roll() * RAD_TO_DEG);
-                float z = (direction.yaw() * RAD_TO_DEG * 7);
+				float x = (direction.pitch() * RAD_TO_DEG * -1) + 160;
+                float y = (direction.yaw() * RAD_TO_DEG * 2) + 330;
+                float z = (normal.roll() * RAD_TO_DEG * -1) + 330;
                 
-                printf("%f, %f, %f\n\n", x,y,z);
-                
-//                x = 150;
-//                    y = 0;
-//                z = 340;
+               // printf("%f, %f, %f\n\n", x,y,z);
+
                 gunNode->setRotation(core::vector3df(x, y, z));
-                // 150, 0, 340
             }
             
 			driver->beginScene(true, true, video::SColor(0,200,200,200));

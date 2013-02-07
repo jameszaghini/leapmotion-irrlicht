@@ -40,8 +40,8 @@ public:
 	static CPlayState* Instance() {
 		return &m_PlayState;
 	}
-	
-	void CreateBox(const btVector3 &TPosition, const core::vector3df &TScale, btScalar TMass);
+
+	void CreateBox(const btVector3 &TPosition, const core::vector3df &TScale, btScalar TMass, std::string textureFile);
 	void CreateSphere(const btVector3 &TPosition, btScalar TRadius, btScalar TMass);
 	void UpdatePhysics(u32 TDeltaTime);
 	void QuaternionToEuler(const btQuaternion &TQuat, btVector3 &TEuler);

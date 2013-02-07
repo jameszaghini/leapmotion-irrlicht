@@ -184,6 +184,8 @@
 		3858327A16C1297C00381D7F /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3858327416C1297C00381D7F /* LinearMath.framework */; };
 		3858327C16C12D1400381D7F /* libLeap.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3858327B16C12D1400381D7F /* libLeap.dylib */; };
 		3858327E16C12D7500381D7F /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3858327D16C12D7500381D7F /* libfmodex.dylib */; };
+		3874639916C44D02009766F8 /* stones.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3874639716C44D02009766F8 /* stones.jpg */; };
+		3874639A16C44D02009766F8 /* water.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3874639816C44D02009766F8 /* water.jpg */; };
 		38E1A4B516C280CD0003B3A5 /* cube.irr in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4B416C280CD0003B3A5 /* cube.irr */; };
 		38E1A4B816C281500003B3A5 /* cube.irr.meshes in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4B716C281500003B3A5 /* cube.irr.meshes */; };
 		38E1A4C116C281780003B3A5 /* concrete-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4B916C281780003B3A5 /* concrete-1.jpg */; };
@@ -1106,6 +1108,8 @@
 		3858327416C1297C00381D7F /* LinearMath.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LinearMath.framework; path = ../../../../../Library/Frameworks/LinearMath.framework; sourceTree = "<group>"; };
 		3858327B16C12D1400381D7F /* libLeap.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeap.dylib; path = ../../../libLeap.dylib; sourceTree = "<group>"; };
 		3858327D16C12D7500381D7F /* libfmodex.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmodex.dylib; path = ../../../libfmodex.dylib; sourceTree = "<group>"; };
+		3874639716C44D02009766F8 /* stones.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stones.jpg; sourceTree = "<group>"; };
+		3874639816C44D02009766F8 /* water.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = water.jpg; sourceTree = "<group>"; };
 		38E1A4B416C280CD0003B3A5 /* cube.irr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = cube.irr; sourceTree = "<group>"; };
 		38E1A4B716C281500003B3A5 /* cube.irr.meshes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = cube.irr.meshes; sourceTree = "<group>"; };
 		38E1A4B916C281780003B3A5 /* concrete-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "concrete-1.jpg"; sourceTree = "<group>"; };
@@ -2562,6 +2566,8 @@
 		38E1A4B616C2813D0003B3A5 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				3874639716C44D02009766F8 /* stones.jpg */,
+				3874639816C44D02009766F8 /* water.jpg */,
 				38E1A4D316C28FB00003B3A5 /* Cavity.png */,
 				38E1A4D116C28AB20003B3A5 /* Hand1.b3d */,
 				38E1A4B916C281780003B3A5 /* concrete-1.jpg */,
@@ -3184,6 +3190,8 @@
 				38E1A4CA16C281D60003B3A5 /* default_skyboxup.jpg in Resources */,
 				38E1A4D216C28AB20003B3A5 /* Hand1.b3d in Resources */,
 				38E1A4D416C28FB00003B3A5 /* Cavity.png in Resources */,
+				3874639916C44D02009766F8 /* stones.jpg in Resources */,
+				3874639A16C44D02009766F8 /* water.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

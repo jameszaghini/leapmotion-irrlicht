@@ -15,11 +15,14 @@
 #include "CTPauseState.h"
 #include "CTAudioController.h"
 #include  <BulletDynamics/btBulletDynamicsCommon.h>
+#include "Leap.h"
 
 using namespace irr;
 using namespace core;
 using namespace video;
 using namespace scene;
+using namespace Leap;
+
 
 class CPlayState : public CGameState
 {
@@ -58,7 +61,11 @@ private:
     SMaterial gunMaterial;
     ISceneNode *gunFlareBillboardNode;
     bool gunSoundPlaying = false;
-	
+
+	// Create a sample listener and controller
+	Listener listener;
+	Controller controller;
+    
 	ITimer* timer;
 	u32 then, now;
     

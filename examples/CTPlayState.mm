@@ -95,6 +95,9 @@ void CPlayState::CreateSphere(const btVector3 &TPosition, btScalar TRadius, btSc
 void CPlayState::Init(CGameEngine* game)
 {
 	printf("CPlayState Init\n");
+   
+	// Have the sample listener receive events from the controller
+	controller.addListener(listener);
     
 	timer = game->device->getTimer();
 	then = timer->getTime();
@@ -218,9 +221,9 @@ void CPlayState::Init(CGameEngine* game)
      changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
     
 	gunNode = smgr->addAnimatedMeshSceneNode(smgr->getMesh("Hand1.b3d"), 0, 0 | 0);
-	gunNode->setPosition(core::vector3df(6,-11,8)); // Put its feet on the floor.
+	gunNode->setPosition(core::vector3df(6,-11,38)); // Put its feet on the floor.
 	gunNode->setRotation(core::vector3df(150,0,340));
-	gunNode->setScale(core::vector3df(5, 5, 5)); // Make it appear realistically scaled
+	gunNode->setScale(core::vector3df(8, 8, 8)); // Make it appear realistically scaled
 	gunNode->setMD2Animation(scene::EMAT_POINT);
 	gunNode->setAnimationSpeed(20.f);
 	
@@ -363,7 +366,68 @@ void CPlayState::Draw(CGameEngine* game)
 		{
             UpdatePhysics(50);
 			
-			
+		
+            // Get the most recent frame and report some basic information
+            const Frame frame = controller.frame();
+//            std::cout << "Frame id: " << frame.id()
+//            << ", timestamp: " << frame.timestamp()
+//            << ", hands: " << frame.hands().count()
+//            << ", fingers: " << frame.fingers().count()
+//            << ", tools: " << frame.tools().count() << std::endl;
+            
+            if (!frame.hands().empty()) {
+                // Get the first hand
+                const Hand hand = frame.hands()[0];
+                
+                // Check if the hand has any fingers
+                const FingerList fingers = hand.fingers();
+                if (!fingers.empty()) {
+                    // Calculate the hand's average finger tip position
+                    Vector avgPos;
+                    for (int i = 0; i < fingers.count(); ++i) {
+                        avgPos += fingers[i].tipPosition();
+                    }
+                    avgPos /= (float)fingers.count();
+//                    std::cout << "Hand has " << fingers.count()
+//                    << " fingers, average finger tip position" << avgPos << std::endl;
+                }
+                
+                // Get the hand's sphere radius and palm position
+//                std::cout << "Hand sphere radius: " << hand.sphereRadius()
+//                << " mm, palm position: " << hand.palmPosition() << std::endl;
+                
+                // Get the hand's normal vector and direction
+                const Vector normal = hand.palmNormal();
+                const Vector direction = hand.direction();
+                
+                // Calculate the hand's pitch, roll, and yaw angles
+//                std::cout << "Hand pitch: " << direction.pitch() * RAD_TO_DEG << " degrees, "
+//                << "roll: " << normal.roll() * RAD_TO_DEG << " degrees, "
+//                << "yaw: " << direction.yaw() * RAD_TO_DEG << " degrees" << std::endl << std::endl;
+               
+                // Get the hand's normal vector and direction
+//                const LeapVector *normal = [hand palmNormal];
+//                const LeapVector *direction = [hand direction];
+//                
+//                // Calculate the hand's pitch, roll, and yaw angles
+//                NSLog(@"Hand pitch: %f degrees, roll: %f degrees, yaw: %f degrees\n",
+//                      [direction pitch] * LEAP_RAD_TO_DEG,
+//                      [normal roll] * LEAP_RAD_TO_DEG,
+//                      [direction yaw] * LEAP_RAD_TO_DEG);
+                
+                float x = (direction.pitch() * RAD_TO_DEG * 2 * -1) + 135;
+                float y = (normal.roll() * RAD_TO_DEG);
+                float z = (direction.yaw() * RAD_TO_DEG * 7);
+                
+                printf("%f, %f, %f\n\n", x,y,z);
+                
+//                x = 150;
+//                    y = 0;
+//                z = 340;
+                gunNode->setRotation(core::vector3df(x, y, z));
+                // 150, 0, 340
+            }
+            
 			driver->beginScene(true, true, video::SColor(0,200,200,200));
 						
 			smgr->drawAll();

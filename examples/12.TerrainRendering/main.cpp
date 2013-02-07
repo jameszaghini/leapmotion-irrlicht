@@ -1,13 +1,11 @@
 #include <irrlicht.h>
 #include <BulletDynamics/btBulletDynamicsCommon.h>
-#include "Leap.h"
 #include "CTEventReceiver.h"
 #include "CTAudioController.h"
 #include "CTGameEngine.h"
 #include "CTPlayState.h"
 
 using namespace irr;
-using namespace Leap;
 
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
@@ -18,10 +16,13 @@ int main(int argc, char** argv)
 	CGameEngine game;
 	
 //	CTAudioController::Instance()->play("right-behind-you.mp3");
-
     
 	int width = 1600;
 	int height = 900;
+    
+    if(bool tiny = false) {
+        width /= 3; height /= 3;
+    }
     
 	game.Init("Contratempo", width, height, 16, false);
 	
@@ -41,14 +42,6 @@ int main(int argc, char** argv)
 
 int mainx()
 {
-	// Create a sample listener and controller
-	Listener listener;
-	Controller controller;
-	
-	// Have the sample listener receive events from the controller
-	controller.addListener(listener);
-	
-	// ask user for driver
 	video::E_DRIVER_TYPE driverType= video::EDT_OPENGL;
 	if (driverType==video::EDT_COUNT)
 		return 1;
@@ -129,46 +122,6 @@ int mainx()
 	while(device->run())
 	if (device->isWindowActive())
 	{
-
-		// Get the most recent frame and report some basic information
-		const Frame frame = controller.frame();
-		std::cout << "Frame id: " << frame.id()
-		<< ", timestamp: " << frame.timestamp()
-		<< ", hands: " << frame.hands().count()
-		<< ", fingers: " << frame.fingers().count()
-		<< ", tools: " << frame.tools().count() << std::endl;
-		
-		if (!frame.hands().empty()) {
-			// Get the first hand
-			const Hand hand = frame.hands()[0];
-
-			// Check if the hand has any fingers
-			const FingerList fingers = hand.fingers();
-			if (!fingers.empty()) {
-				// Calculate the hand's average finger tip position
-				Vector avgPos;
-				for (int i = 0; i < fingers.count(); ++i) {
-					avgPos += fingers[i].tipPosition();
-				}
-				avgPos /= (float)fingers.count();
-				std::cout << "Hand has " << fingers.count()
-				<< " fingers, average finger tip position" << avgPos << std::endl;
-			}
-			
-			// Get the hand's sphere radius and palm position
-			std::cout << "Hand sphere radius: " << hand.sphereRadius()
-			<< " mm, palm position: " << hand.palmPosition() << std::endl;
-			
-			// Get the hand's normal vector and direction
-			const Vector normal = hand.palmNormal();
-			const Vector direction = hand.direction();
-			
-			// Calculate the hand's pitch, roll, and yaw angles
-			std::cout << "Hand pitch: " << direction.pitch() * RAD_TO_DEG << " degrees, "
-			<< "roll: " << normal.roll() * RAD_TO_DEG << " degrees, "
-			<< "yaw: " << direction.yaw() * RAD_TO_DEG << " degrees" << std::endl << std::endl;
-		}
-		
 		driver->beginScene(true, true, 0 );
 
 		smgr->drawAll();
@@ -180,7 +133,7 @@ int mainx()
 		int fps = driver->getFPS();
 		if (lastFPS != fps)
 		{
-			core::stringw str = L"Terrain Renderer - Irrlicht Engine [";
+			core::stringw str = L"Leap/Fmod/Irrlicht/Bullet [";
 			str += driver->getName();
 			str += "] FPS:";
 			str += fps;

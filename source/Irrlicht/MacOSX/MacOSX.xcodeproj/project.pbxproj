@@ -190,6 +190,8 @@
 		387463A016C52983009766F8 /* HAND_C.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3874639D16C52983009766F8 /* HAND_C.jpg */; };
 		387463A116C52983009766F8 /* HAND_N .jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3874639E16C52983009766F8 /* HAND_N .jpg */; };
 		387463A216C52983009766F8 /* HAND_S.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3874639F16C52983009766F8 /* HAND_S.jpg */; };
+		387463A516C5FBD2009766F8 /* CTBulletHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 387463A316C5FBD1009766F8 /* CTBulletHelper.cpp */; };
+		387463A716C5FC01009766F8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 387463A616C5FC01009766F8 /* main.cpp */; };
 		38E1A4B516C280CD0003B3A5 /* cube.irr in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4B416C280CD0003B3A5 /* cube.irr */; };
 		38E1A4B816C281500003B3A5 /* cube.irr.meshes in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4B716C281500003B3A5 /* cube.irr.meshes */; };
 		38E1A4C116C281780003B3A5 /* concrete-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4B916C281780003B3A5 /* concrete-1.jpg */; };
@@ -404,7 +406,6 @@
 		4CA25C080A485EAD00B4E469 /* jquant1.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C53E7390A485CD80014E966 /* jquant1.c */; };
 		4CA25C090A485EAD00B4E469 /* jquant2.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C53E73A0A485CD80014E966 /* jquant2.c */; };
 		4CA25C0A0A485EAD00B4E469 /* jutils.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C53E73B0A485CD80014E966 /* jutils.c */; };
-		4CA5CBB50A486A1F00ADB3D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C0054B60A48470500C844C2 /* main.cpp */; };
 		4CA5CBB60A486A2200ADB3D7 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4C53E1650A484C2C0014E966 /* MainMenu.nib */; };
 		4CA5CBB70A486A2500ADB3D7 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
 		4CC36B0F0A6B61DB0076C4B2 /* CSphereSceneNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CC36B0D0A6B61DB0076C4B2 /* CSphereSceneNode.cpp */; };
@@ -1118,6 +1119,9 @@
 		3874639D16C52983009766F8 /* HAND_C.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = HAND_C.jpg; sourceTree = "<group>"; };
 		3874639E16C52983009766F8 /* HAND_N .jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "HAND_N .jpg"; sourceTree = "<group>"; };
 		3874639F16C52983009766F8 /* HAND_S.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = HAND_S.jpg; sourceTree = "<group>"; };
+		387463A316C5FBD1009766F8 /* CTBulletHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTBulletHelper.cpp; sourceTree = "<group>"; };
+		387463A416C5FBD1009766F8 /* CTBulletHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTBulletHelper.h; sourceTree = "<group>"; };
+		387463A616C5FC01009766F8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		38E1A4B416C280CD0003B3A5 /* cube.irr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = cube.irr; sourceTree = "<group>"; };
 		38E1A4B716C281500003B3A5 /* cube.irr.meshes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = cube.irr.meshes; sourceTree = "<group>"; };
 		38E1A4B916C281780003B3A5 /* concrete-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "concrete-1.jpg"; sourceTree = "<group>"; };
@@ -1131,7 +1135,6 @@
 		38E1A4C916C281D60003B3A5 /* default_skyboxup.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default_skyboxup.jpg; sourceTree = "<group>"; };
 		38E1A4D116C28AB20003B3A5 /* Hand1.b3d */ = {isa = PBXFileReference; lastKnownFileType = file; path = Hand1.b3d; sourceTree = "<group>"; };
 		38E1A4D316C28FB00003B3A5 /* Cavity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cavity.png; sourceTree = "<group>"; };
-		4C0054B60A48470500C844C2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = 12.TerrainRendering/main.cpp; sourceTree = "<group>"; };
 		4C364EA20A6C6DC2004CFBB4 /* COBJMeshFileLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = COBJMeshFileLoader.cpp; sourceTree = "<group>"; };
 		4C364EA30A6C6DC2004CFBB4 /* COBJMeshFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = COBJMeshFileLoader.h; sourceTree = "<group>"; };
 		4C43EEBE0A74A5C800F942FC /* CPakReader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CPakReader.cpp; sourceTree = "<group>"; };
@@ -2602,6 +2605,8 @@
 			children = (
 				3858325C16C11C6700381D7F /* CTAudioController.h */,
 				3858325D16C11C6700381D7F /* CTAudioController.mm */,
+				387463A316C5FBD1009766F8 /* CTBulletHelper.cpp */,
+				387463A416C5FBD1009766F8 /* CTBulletHelper.h */,
 				3858325916C11C5800381D7F /* CTEventReceiver.cpp */,
 				3858325A16C11C5800381D7F /* CTEventReceiver.h */,
 				3858325E16C11C6700381D7F /* CTGameEngine.cpp */,
@@ -2612,7 +2617,7 @@
 				3858326316C11C6700381D7F /* CTPauseState.h */,
 				3858326416C11C6700381D7F /* CTPlayState.h */,
 				3858326516C11C6700381D7F /* CTPlayState.mm */,
-				4C0054B60A48470500C844C2 /* main.cpp */,
+				387463A616C5FC01009766F8 /* main.cpp */,
 			);
 			name = classes;
 			path = ../../../examples;
@@ -3532,13 +3537,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CA5CBB50A486A1F00ADB3D7 /* main.cpp in Sources */,
 				3858325B16C11C5800381D7F /* CTEventReceiver.cpp in Sources */,
 				3858326616C11C6700381D7F /* CTAudioController.mm in Sources */,
 				3858326716C11C6700381D7F /* CTGameEngine.cpp in Sources */,
 				3858326816C11C6700381D7F /* CTGameState.cpp in Sources */,
 				3858326916C11C6700381D7F /* CTPauseState.cpp in Sources */,
 				3858326A16C11C6700381D7F /* CTPlayState.mm in Sources */,
+				387463A516C5FBD2009766F8 /* CTBulletHelper.cpp in Sources */,
+				387463A716C5FC01009766F8 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

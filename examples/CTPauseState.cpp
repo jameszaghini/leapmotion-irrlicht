@@ -16,7 +16,6 @@ void CPauseState::Init(CGameEngine* game)
 	smgr = game->device->getSceneManager();
     
     pauseImage = driver->getTexture("paused.png");
-//    font = game->device->getGUIEnvironment()->getBuiltInFont();
 }
 
 void CPauseState::Cleanup()

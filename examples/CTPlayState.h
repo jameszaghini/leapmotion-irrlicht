@@ -57,10 +57,8 @@ private:
 		
 	ITexture *crosshairImage;
     
-    IMeshSceneNode* gunNode;
-    SMaterial gunMaterial;
-    ISceneNode *gunFlareBillboardNode;
-    bool gunSoundPlaying = false;
+    IMeshSceneNode *handsNode;
+    SMaterial handsMaterial;
 
 	// Create a sample listener and controller
 	Listener listener;
@@ -68,7 +66,6 @@ private:
     
 	ITimer* timer;
 	u32 then, now;
-    
 };
 
 #endif /* defined(__Contratempo__CTPlayState__) */

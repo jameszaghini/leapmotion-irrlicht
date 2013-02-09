@@ -218,31 +218,21 @@ void CPlayState::Init(CGameEngine* game)
 	
 	scene::IAnimatedMeshSceneNode* node = 0;
 	scene::IMeshSceneNode *node2 = 0;
-	
-    [[NSFileManager defaultManager]
-     changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
     
-//	gunNode = smgr->addMeshSceneNode(smgr->getMesh("Hand_v.4.b3d"), 0, 0 | 0);
-//	gunNode->setPosition(core::vector3df(6,-11,30)); 
-//	gunNode->setRotation(core::vector3df(150,0,340));
-//	gunNode->setScale(core::vector3df(59, 59, 59));
+	handsNode = smgr->addMeshSceneNode(smgr->getMesh("Hand_v.4.b3d"), 0, 0 | 0);
+	handsNode->setPosition(core::vector3df(6,-11,30));
+	handsNode->setRotation(core::vector3df(150,0,340));
+	handsNode->setScale(core::vector3df(59, 59, 59));
+	handsNode->setMaterialFlag(video::EMF_LIGHTING, 1);
+	handsNode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
 	
-	gunNode = smgr->addCubeSceneNode(1.0f);
-	gunNode->setPosition(core::vector3df(6,-11,30));
-	gunNode->setScale(core::vector3df(9, 9, 9));
-	gunNode->setMaterialFlag(video::EMF_LIGHTING, 1);
-	gunNode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+	handsMaterial.setTexture(0, driver->getTexture("HAND_C.jpg"));
+	handsMaterial.Lighting = true;
+	handsMaterial.NormalizeNormals = true;
 	
-	gunMaterial.setTexture(0, driver->getTexture("water.jpg"));
-	gunMaterial.Lighting = true;
-	gunMaterial.NormalizeNormals = true;
+	handsNode->getMaterial(0) = handsMaterial;
 	
-	gunNode->getMaterial(0) = gunMaterial;
-	
-	camera->addChild(gunNode);
-	
-	CreateBox(btVector3(0.0f, -50.0f, 0.0f), core::vector3df(20.0f, 1.0f, 20.0f), 0.0f, "concrete-1.jpg");
-	CreateBox(btVector3(0.0f, -72.0f, 0.0f), core::vector3df(100.0f, 1.0f, 100.0f), 0.0f, "concrete-1.jpg");
+	camera->addChild(handsNode);
 }
 
 void CPlayState::Cleanup()
@@ -309,56 +299,42 @@ void CPlayState::HandleEvents(CGameEngine* game)
         game->PushState(CPauseState::Instance());
 	}
 	
-	core::vector3df rotation = gunNode->getRotation();
+	core::vector3df rotation = handsNode->getRotation();
 
 	printf("%f, %f, %f\n", rotation.X, rotation.Y, rotation.Z);
 	
 	if(game->receiver.IsKeyPressed(KEY_KEY_X)) {
 		float x = rotation.X + 10;
 		if(x>360) x -= 360;
-		gunNode->setRotation(core::vector3df(x, rotation.Y, rotation.Z));
+		handsNode->setRotation(core::vector3df(x, rotation.Y, rotation.Z));
 	}
 	if(game->receiver.IsKeyPressed(KEY_KEY_Y)) {
 		float y = rotation.Y + 10;
 		if(y>360) y -= 360;
-		gunNode->setRotation(core::vector3df(rotation.X, y, rotation.Z));
+		handsNode->setRotation(core::vector3df(rotation.X, y, rotation.Z));
 	}
 	if(game->receiver.IsKeyPressed(KEY_KEY_Z)) {
 		float z = rotation.Z + 10;
 		if(z>360) z -= 360;
-		gunNode->setRotation(core::vector3df(rotation.X, rotation.Y, z));
+		handsNode->setRotation(core::vector3df(rotation.X, rotation.Y, z));
 	}
 	if(game->receiver.IsKeyPressed(KEY_KEY_J)) {
 		float x = rotation.X - 10;
 		if(x<0) x += 360;
-		gunNode->setRotation(core::vector3df(x, rotation.Y, rotation.Z));
+		handsNode->setRotation(core::vector3df(x, rotation.Y, rotation.Z));
 	}
 	if(game->receiver.IsKeyPressed(KEY_KEY_K)) {
 		float y = rotation.Y - 10;
 		if(y<0) y += 360;
-		gunNode->setRotation(core::vector3df(rotation.X, y, rotation.Z));
+		handsNode->setRotation(core::vector3df(rotation.X, y, rotation.Z));
 	}
 	if(game->receiver.IsKeyPressed(KEY_KEY_L)) {
 		float z = rotation.Z - 10;
 		if(z<0) z += 360;
-		gunNode->setRotation(core::vector3df(rotation.X, rotation.Y, z));
+		handsNode->setRotation(core::vector3df(rotation.X, rotation.Y, z));
 	}
     if(game->receiver.IsKeyDown(KEY_ESCAPE)) {
         exit(0);
-    }
-    
-    if(game->receiver.IsKeyDown(KEY_KEY_O)) {
-		CreateBox(btVector3(GetRandInt(10) - 5.0f, 50.0f, GetRandInt(10) - 5.0f), core::vector3df(GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f), 1.0f, "stones.jpg");
-    }
-	
-    if(game->receiver.IsKeyDown(KEY_KEY_I)) {
-		CreateSphere(btVector3(GetRandInt(10) - 5.0f, 7.0f, GetRandInt(10) - 5.0f), GetRandInt(5) / 5.0f + 0.2f, 1.0f);
-    }
-	
-    if(game->receiver.GetMouseState().RightButtonPressed) {
-		printf("rmb pressed\n");
-		CreateBox(btVector3(GetRandInt(10) - 5.0f, 50.0f, GetRandInt(10) - 5.0f), core::vector3df(GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f), 1.0f, "stones.jpg");
-
     }
 
     if(game->receiver.GetMouseState().LeftButtonPressed) {
@@ -447,7 +423,7 @@ void CPlayState::Draw(CGameEngine* game)
 				
                // printf("%f, %f, %f\n\n", x,y,z);
 
-                gunNode->setRotation(core::vector3df(x, y, z));
+                handsNode->setRotation(core::vector3df(x, y, z));
             }
             
 			driver->beginScene(true, true, video::SColor(0,200,200,200));
@@ -469,9 +445,6 @@ void CPlayState::Draw(CGameEngine* game)
 				game->device->setWindowCaption(str.c_str());
 				lastFPS = fps;
 			}
-			
-			//		irr::core::vector3df pos = camera->getAbsolutePosition();
-			//		printf("%f, %f, %f\n", pos.X, pos.Y, pos.Z);
 		}
 	}
 }

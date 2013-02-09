@@ -218,30 +218,28 @@ void CPlayState::Init(CGameEngine* game)
 	
 	scene::IAnimatedMeshSceneNode* node = 0;
 	scene::IMeshSceneNode *node2 = 0;
-
 	
     [[NSFileManager defaultManager]
      changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
     
-	gunNode = smgr->addAnimatedMeshSceneNode(smgr->getMesh("Hand1.b3d"), 0, 0 | 0);
-	gunNode->setPosition(core::vector3df(6,-11,30)); 
-	gunNode->setRotation(core::vector3df(150,0,340));
-	gunNode->setScale(core::vector3df(9, 9, 9));
-	gunNode->setMD2Animation(scene::EMAT_POINT);
-	gunNode->setAnimationSpeed(20.f);
+//	gunNode = smgr->addMeshSceneNode(smgr->getMesh("Hand_v.4.b3d"), 0, 0 | 0);
+//	gunNode->setPosition(core::vector3df(6,-11,30)); 
+//	gunNode->setRotation(core::vector3df(150,0,340));
+//	gunNode->setScale(core::vector3df(59, 59, 59));
 	
-//	gunMaterial.setTexture(0, driver->getTexture("default_skyboxbup.jpg"));
+	gunNode = smgr->addCubeSceneNode(1.0f);
+	gunNode->setPosition(core::vector3df(6,-11,30));
+	gunNode->setScale(core::vector3df(9, 9, 9));
+	gunNode->setMaterialFlag(video::EMF_LIGHTING, 1);
+	gunNode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+	
+	gunMaterial.setTexture(0, driver->getTexture("water.jpg"));
 	gunMaterial.Lighting = true;
 	gunMaterial.NormalizeNormals = true;
 	
 	gunNode->getMaterial(0) = gunMaterial;
 	
 	camera->addChild(gunNode);
-	
-	
-    [[NSFileManager defaultManager]
-     changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
-
 	
 	CreateBox(btVector3(0.0f, -50.0f, 0.0f), core::vector3df(20.0f, 1.0f, 20.0f), 0.0f, "concrete-1.jpg");
 	CreateBox(btVector3(0.0f, -72.0f, 0.0f), core::vector3df(100.0f, 1.0f, 100.0f), 0.0f, "concrete-1.jpg");
@@ -387,6 +385,7 @@ void CPlayState::Draw(CGameEngine* game)
 	if(game->device->run()) {
 		if (game->device->isWindowActive())
 		{
+
             UpdatePhysics(50);
 			
 		
@@ -438,10 +437,14 @@ void CPlayState::Draw(CGameEngine* game)
 //                      [normal roll] * LEAP_RAD_TO_DEG,
 //                      [direction yaw] * LEAP_RAD_TO_DEG);
                 
-				float x = (direction.pitch() * RAD_TO_DEG * -1) + 160;
-                float y = (direction.yaw() * RAD_TO_DEG * 2) + 330;
-                float z = (normal.roll() * RAD_TO_DEG * -1) + 330;
-                
+//				float x = (direction.pitch() * RAD_TO_DEG * -1) + 160;
+//                float y = (direction.yaw() * RAD_TO_DEG * 2) + 330;
+//                float z = (normal.roll() * RAD_TO_DEG * -1) + 330;
+               
+				float x = (direction.pitch() * RAD_TO_DEG * -1);
+                float y = (direction.yaw() * RAD_TO_DEG);
+                float z = (normal.roll() * RAD_TO_DEG);
+				
                // printf("%f, %f, %f\n\n", x,y,z);
 
                 gunNode->setRotation(core::vector3df(x, y, z));

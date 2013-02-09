@@ -57,7 +57,7 @@ private:
 		
 	ITexture *crosshairImage;
     
-    IAnimatedMeshSceneNode* gunNode;
+    IMeshSceneNode* gunNode;
     SMaterial gunMaterial;
     ISceneNode *gunFlareBillboardNode;
     bool gunSoundPlaying = false;

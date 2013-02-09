@@ -14,8 +14,8 @@
 #include "CTGameState.h"
 #include "CTPauseState.h"
 #include "CTAudioController.h"
-#include  <BulletDynamics/btBulletDynamicsCommon.h>
 #include "Leap.h"
+#include "CTBulletHelper.h"
 
 using namespace irr;
 using namespace core;
@@ -41,11 +41,6 @@ public:
 		return &m_PlayState;
 	}
 
-	void CreateBox(const btVector3 &TPosition, const core::vector3df &TScale, btScalar TMass, std::string textureFile);
-	void CreateSphere(const btVector3 &TPosition, btScalar TRadius, btScalar TMass);
-	void UpdatePhysics(u32 TDeltaTime);
-	void QuaternionToEuler(const btQuaternion &TQuat, btVector3 &TEuler);
-	
 protected:
 	CPlayState() { }
 	
@@ -66,6 +61,8 @@ private:
     
 	ITimer* timer;
 	u32 then, now;
+	
+	CTBulletHelper *bulletHelper;
 };
 
 #endif /* defined(__Contratempo__CTPlayState__) */

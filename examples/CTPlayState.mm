@@ -131,20 +131,17 @@ void CPlayState::Init(CGameEngine* game)
 	// And set the camera position so that it doesn't start off stuck in the geometry
 	camera->setPosition(core::vector3df(95.0f, 1.00f, -6.0f));
 	
-	scene::IAnimatedMeshSceneNode* node = 0;
-	scene::IMeshSceneNode *node2 = 0;
-    
-	handsNode = smgr->addMeshSceneNode(smgr->getMesh("Hand_v.4.b3d"), 0, 0 | 0);
-	handsNode->setPosition(core::vector3df(6,-11,30));
-	handsNode->setRotation(core::vector3df(150,0,340));
-	handsNode->setScale(core::vector3df(59, 59, 59));
+	handsNode = smgr->addAnimatedMeshSceneNode(smgr->getMesh("Hand_v.4.b3d"), 0, 0 | 0);
+	handsNode->setPosition(core::vector3df(-3,-20,10));
+	handsNode->setRotation(core::vector3df(38,160,30));
+	handsNode->setScale(core::vector3df(12, 12, 12));
 	handsNode->setMaterialFlag(video::EMF_LIGHTING, 1);
 	handsNode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-	
+	handsNode->setJointMode(irr::scene::EJUOR_CONTROL);
 	handsMaterial.setTexture(0, driver->getTexture("HAND_C.jpg"));
 	handsMaterial.Lighting = true;
 	handsMaterial.NormalizeNormals = true;
-	
+//
 	handsNode->getMaterial(0) = handsMaterial;
 	
 	camera->addChild(handsNode);
@@ -255,7 +252,8 @@ void CPlayState::Draw(CGameEngine* game)
                     // Calculate the hand's average finger tip position
                     Vector avgPos;
                     for (int i = 0; i < fingers.count(); ++i) {
-                        avgPos += fingers[i].tipPosition();
+                        
+						avgPos += fingers[i].tipPosition();
                     }
                     avgPos /= (float)fingers.count();
 //                    std::cout << "Hand has " << fingers.count()
@@ -289,13 +287,16 @@ void CPlayState::Draw(CGameEngine* game)
 //                float y = (direction.yaw() * RAD_TO_DEG * 2) + 330;
 //                float z = (normal.roll() * RAD_TO_DEG * -1) + 330;
                
-				float x = (direction.pitch() * RAD_TO_DEG * -1);
-                float y = (direction.yaw() * RAD_TO_DEG);
-                float z = (normal.roll() * RAD_TO_DEG);
-				
-               // printf("%f, %f, %f\n\n", x,y,z);
+				float x = ((direction.pitch() * RAD_TO_DEG - 30) * -1);
+                float y = (direction.yaw() * RAD_TO_DEG) - 50;
+                float z = (normal.roll() * RAD_TO_DEG) + 50;
+			
+				IBoneSceneNode* Head = handsNode->getJointNode("hand.L");
 
-                handsNode->setRotation(core::vector3df(x, y, z));
+				Head->setRotation(vector3df(x,y,z));
+				printf("%f, %f, %f\n\n", x,y,z);
+
+//                handsNode->setRotation(core::vector3df(x, y, z));
             }
             
 			driver->beginScene(true, true, video::SColor(0,200,200,200));

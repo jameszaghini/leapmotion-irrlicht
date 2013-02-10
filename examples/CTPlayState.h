@@ -52,7 +52,7 @@ private:
 		
 	ITexture *crosshairImage;
     
-    IMeshSceneNode *handsNode;
+    IAnimatedMeshSceneNode *handsNode;
     SMaterial handsMaterial;
 
 	// Create a sample listener and controller

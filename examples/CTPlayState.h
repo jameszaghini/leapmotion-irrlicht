@@ -45,10 +45,14 @@ protected:
 	CPlayState() { }
 	
 private:
+    
+    void GUI();
+    
 	static CPlayState m_PlayState;
 	
 	IVideoDriver *driver;
 	ISceneManager *smgr;
+    IGUIEnvironment *env;
 		
 	ITexture *crosshairImage;
     

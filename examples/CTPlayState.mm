@@ -15,6 +15,11 @@
 
 CPlayState CPlayState::m_PlayState;
 
+void CPlayState::GUI()
+{
+    IGUIEditBox *box;
+}
+
 void CPlayState::Init(CGameEngine* game)
 {
 	printf("CPlayState Init\n");
@@ -31,6 +36,10 @@ void CPlayState::Init(CGameEngine* game)
 	driver = game->device->getVideoDriver();
 	smgr = game->device->getSceneManager();
 
+    env = game->device->getGUIEnvironment();
+    IGUIEditBox *x = env->addEditBox(L"Editable Text", rect<s32>(10, 10, 100, 25));
+    std::wcout << x->getText();
+    
 	bulletHelper = new CTBulletHelper(driver, smgr);
 	
 	smgr->loadScene("cube.irr");
@@ -144,7 +153,9 @@ void CPlayState::Init(CGameEngine* game)
 //
 	handsNode->getMaterial(0) = handsMaterial;
 	
-	camera->addChild(handsNode);
+    
+    
+	//camera->addChild(handsNode);
 }
 
 void CPlayState::Cleanup()
@@ -169,6 +180,7 @@ void CPlayState::HandleEvents(CGameEngine* game)
 	}
 	
 	core::vector3df rotation = handsNode->getRotation();
+    core::vector3df position = handsNode->getPosition();
 
 	printf("%f, %f, %f\n", rotation.X, rotation.Y, rotation.Z);
 	
@@ -202,6 +214,23 @@ void CPlayState::HandleEvents(CGameEngine* game)
 		if(z<0) z += 360;
 		handsNode->setRotation(core::vector3df(rotation.X, rotation.Y, z));
 	}
+    if(game->receiver.IsKeyPressed(KEY_KEY_8)) {
+        float val = position.Z + 10;
+        handsNode->setPosition(core::vector3df(position.X, position.Y, val));
+    }
+    if(game->receiver.IsKeyPressed(KEY_KEY_2)) {
+        float val = position.Z - 10;
+        handsNode->setPosition(core::vector3df(position.X, position.Y, val));
+    }
+    if(game->receiver.IsKeyPressed(KEY_KEY_4)) {
+        float val = position.X + 10;
+        handsNode->setPosition(core::vector3df(val, position.Y, position.Z));
+    }
+    if(game->receiver.IsKeyPressed(KEY_KEY_6)) {
+        float val = position.X - 10;
+        handsNode->setPosition(core::vector3df(val, position.Y, position.Z));
+    }
+    
     if(game->receiver.IsKeyDown(KEY_ESCAPE)) {
         exit(0);
     }
@@ -302,6 +331,7 @@ void CPlayState::Draw(CGameEngine* game)
 			driver->beginScene(true, true, video::SColor(0,200,200,200));
 						
 			smgr->drawAll();
+            env->drawAll();
 
 			driver->draw2DImage(crosshairImage, core::position2d<s32>(game->getWidth()/2-24/2, game->getHeight()/2-24/2), core::rect<s32>(0, 0, 24, 24), 0, video::SColor(255,255,255,255), true);
 			

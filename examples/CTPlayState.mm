@@ -27,13 +27,9 @@ const wchar_t* getstring_float(float num)
 void CPlayState::initalizeGUI(CGameEngine* game)
 {
 	env = game->device->getGUIEnvironment();
-
-	//	std::wcout << x->getText();
 	
 	core::vector3df rotation = handsNode->getRotation();
     core::vector3df position = handsNode->getPosition();
-	
-	printf("%f, %f, %f\n", rotation.X, rotation.Y, rotation.Z);
 	
 	env->addStaticText(L"Rotation x,y,z", rect<s32>(10,1,100,10));
 	
@@ -216,7 +212,7 @@ void CPlayState::Init(CGameEngine* game)
 	camera->setPosition(core::vector3df(95.0f, 1.00f, -6.0f));
 	
 	handsNode = smgr->addAnimatedMeshSceneNode(smgr->getMesh("Hand_v.4.b3d"), 0, 0 | 0);
-	handsNode->setPosition(core::vector3df(-3,-20,10));
+	handsNode->setPosition(core::vector3df(83,-60,5));
 	handsNode->setRotation(core::vector3df(38,160,30));
 	handsNode->setScale(core::vector3df(12, 12, 12));
 	handsNode->setMaterialFlag(video::EMF_LIGHTING, 1);
@@ -253,6 +249,22 @@ void CPlayState::HandleEvents(CGameEngine* game)
     if(game->receiver.IsKeyPressed(KEY_KEY_P)) {
         game->PushState(CPauseState::Instance());
 	}
+	
+	if(game->receiver.IsKeyPressed(KEY_RETURN)) {
+		
+		float x = (float)wcstod(posX->getText(), NULL);
+		float y = (float)wcstod(posY->getText(), NULL);
+		float z = (float)wcstod(posZ->getText(), NULL);
+		
+		handsNode->setPosition(vector3df(x,y,z));
+		
+		x = (float)wcstod(rotX->getText(), NULL);
+		y = (float)wcstod(rotY->getText(), NULL);
+		z = (float)wcstod(rotZ->getText(), NULL);
+		
+		handsNode->setRotation(vector3df(x,y,z));
+	}
+	
 	
     if(game->receiver.IsKeyDown(KEY_ESCAPE)) {
         exit(0);

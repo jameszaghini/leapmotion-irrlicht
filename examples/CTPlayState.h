@@ -46,13 +46,20 @@ protected:
 	
 private:
     
-    void GUI();
-    
+    void initalizeGUI(CGameEngine* game);
+	IGUIEnvironment *env;
+	IGUIEditBox *posX, *posY, *posZ;
+	IGUIEditBox *rotX, *rotY, *rotZ;
+
+	void leapLog(const Frame frame);
+
+	
 	static CPlayState m_PlayState;
+	
 	
 	IVideoDriver *driver;
 	ISceneManager *smgr;
-    IGUIEnvironment *env;
+    
 		
 	ITexture *crosshairImage;
     

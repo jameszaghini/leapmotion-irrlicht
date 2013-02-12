@@ -24,97 +24,8 @@ const wchar_t* getstring_float(float num)
 	return &temp;
 }
 
-void CPlayState::initalizeGUI(CGameEngine* game)
+void CPlayState::initializeCamera()
 {
-	env = game->device->getGUIEnvironment();
-	
-	core::vector3df rotation = handsNode->getRotation();
-    core::vector3df position = handsNode->getPosition();
-	
-	env->addStaticText(L"Rotation x,y,z", rect<s32>(10,1,100,10));
-	
-	rotX = env->addEditBox(getstring_float(rotation.X), rect<s32>(10,10,100,25));
-	rotY = env->addEditBox(getstring_float(rotation.Y), rect<s32>(10,35,100,50));
-	rotZ = env->addEditBox(getstring_float(rotation.Z), rect<s32>(10,60,100,75));
-	
-	env->addStaticText(L"Position x,y,z", rect<s32>(10,84,100,94));
-	
-	posX = env->addEditBox(getstring_float(position.X), rect<s32>(10,95,100,110));
-	posY = env->addEditBox(getstring_float(position.Y), rect<s32>(10,120,100,135));
-	posZ = env->addEditBox(getstring_float(position.Z), rect<s32>(10,145,100,160));
-}
-
-void CPlayState::leapLog(const Frame frame)
-{
-	//            std::cout << "Frame id: " << frame.id()
-	//            << ", timestamp: " << frame.timestamp()
-	//            << ", hands: " << frame.hands().count()
-	//            << ", fingers: " << frame.fingers().count()
-	//            << ", tools: " << frame.tools().count() << std::endl;
-	
-	if (!frame.hands().empty()) {
-		// Get the first hand
-		const Hand hand = frame.hands()[0];
-		
-		// Check if the hand has any fingers
-		const FingerList fingers = hand.fingers();
-		if (!fingers.empty()) {
-			// Calculate the hand's average finger tip position
-			Vector avgPos;
-			for (int i = 0; i < fingers.count(); ++i) {
-				
-				avgPos += fingers[i].tipPosition();
-			}
-			avgPos /= (float)fingers.count();
-			//                    std::cout << "Hand has " << fingers.count()
-			//                    << " fingers, average finger tip position" << avgPos << std::endl;
-		}
-		
-		// Get the hand's sphere radius and palm position
-		//                std::cout << "Hand sphere radius: " << hand.sphereRadius()
-		//                << " mm, palm position: " << hand.palmPosition() << std::endl;
-		
-		// Get the hand's normal vector and direction
-		const Vector normal = hand.palmNormal();
-		const Vector direction = hand.direction();
-		
-		// Calculate the hand's pitch, roll, and yaw angles
-		//                std::cout << "Hand pitch: " << direction.pitch() * RAD_TO_DEG << " degrees, "
-		//                << "roll: " << normal.roll() * RAD_TO_DEG << " degrees, "
-		//                << "yaw: " << direction.yaw() * RAD_TO_DEG << " degrees" << std::endl << std::endl;
-		
-		// Get the hand's normal vector and direction
-		//                const LeapVector *normal = [hand palmNormal];
-		//                const LeapVector *direction = [hand direction];
-		//
-		//                // Calculate the hand's pitch, roll, and yaw angles
-		//                NSLog(@"Hand pitch: %f degrees, roll: %f degrees, yaw: %f degrees\n",
-		//                      [direction pitch] * LEAP_RAD_TO_DEG,
-		//                      [normal roll] * LEAP_RAD_TO_DEG,
-		//                      [direction yaw] * LEAP_RAD_TO_DEG);
-	}
-}
-
-void CPlayState::Init(CGameEngine* game)
-{
-	printf("CPlayState Init\n");
-  
-	// Have the sample listener receive events from the controller
-	controller.addListener(listener);
-    
-	timer = game->device->getTimer();
-	then = timer->getTime();
-	
-    [[NSFileManager defaultManager]
-     changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
-	
-	driver = game->device->getVideoDriver();
-	smgr = game->device->getSceneManager();
-
-	bulletHelper = new CTBulletHelper(driver, smgr);
-	
-	smgr->loadScene("cube.irr");
-	
 	SKeyMap *keyMap = new SKeyMap();
 	keyMap[0].Action = EKA_MOVE_FORWARD;
 	keyMap[0].KeyCode = KEY_KEY_W;
@@ -138,10 +49,9 @@ void CPlayState::Init(CGameEngine* game)
 	float moveSpeed = 0.15f;
 	float jumpSpeed = 7.f;
 	
-	
-	ICameraSceneNode * camera = smgr->addCameraSceneNodeFPS(0, rotationSpeed,  moveSpeed, 0, keyMap, 6, true, jumpSpeed);
-	
-	// Create a meta triangle selector to hold several triangle selectors.
+	camera = smgr->addCameraSceneNodeFPS(0, rotationSpeed,  moveSpeed, 0, keyMap, 6, true, jumpSpeed);
+
+    // Create a meta triangle selector to hold several triangle selectors.
 	scene::IMetaTriangleSelector * meta = smgr->createMetaTriangleSelector();
 	
 	/*
@@ -208,12 +118,97 @@ void CPlayState::Init(CGameEngine* game)
 	camera->addAnimator(anim);
 	anim->drop(); // I'm done with the animator now
 	
-	// And set the camera position so that it doesn't start off stuck in the geometry
-	camera->setPosition(core::vector3df(95.0f, 1.00f, -6.0f));
+    camera->setTarget(vector3df(12,45,0));
+	camera->setPosition(vector3df(86.15f, -40.33f, -3.2f));
+//    camera->setRotation(vector3df(10.81f, 51.96f, 0));
+}
+
+void CPlayState::initalizeGUI(CGameEngine* game)
+{
+	env = game->device->getGUIEnvironment();
 	
+	core::vector3df rotation = handsNode->getRotation();
+    core::vector3df position = handsNode->getPosition();
+	
+	env->addStaticText(L"Rotation x,y,z", rect<s32>(10,1,100,10));
+	
+	rotX = env->addEditBox(getstring_float(rotation.X), rect<s32>(10,10,100,25));
+	rotY = env->addEditBox(getstring_float(rotation.Y), rect<s32>(10,35,100,50));
+	rotZ = env->addEditBox(getstring_float(rotation.Z), rect<s32>(10,60,100,75));
+	
+	env->addStaticText(L"Position x,y,z", rect<s32>(10,84,100,94));
+	
+	posX = env->addEditBox(getstring_float(position.X), rect<s32>(10,95,100,110));
+	posY = env->addEditBox(getstring_float(position.Y), rect<s32>(10,120,100,135));
+	posZ = env->addEditBox(getstring_float(position.Z), rect<s32>(10,145,100,160));
+}
+
+void CPlayState::leapLog(const Frame frame)
+{
+	//  std::cout << "Frame id: " << frame.id()
+	//  << ", timestamp: " << frame.timestamp()
+	//  << ", hands: " << frame.hands().count()
+	//  << ", fingers: " << frame.fingers().count()
+	//  << ", tools: " << frame.tools().count() << std::endl;
+	
+	if (!frame.hands().empty()) {
+		// Get the first hand
+		const Hand hand = frame.hands()[0];
+		
+		// Check if the hand has any fingers
+		const FingerList fingers = hand.fingers();
+		if (!fingers.empty()) {
+			// Calculate the hand's average finger tip position
+			Vector avgPos;
+			for (int i = 0; i < fingers.count(); ++i) {
+				
+				avgPos += fingers[i].tipPosition();
+			}
+			avgPos /= (float)fingers.count();
+			//                    std::cout << "Hand has " << fingers.count()
+			//                    << " fingers, average finger tip position" << avgPos << std::endl;
+		}
+		
+		// Get the hand's sphere radius and palm position
+		//                std::cout << "Hand sphere radius: " << hand.sphereRadius()
+		//                << " mm, palm position: " << hand.palmPosition() << std::endl;
+		
+		// Get the hand's normal vector and direction
+		const Vector normal = hand.palmNormal();
+		const Vector direction = hand.direction();
+		
+		// Calculate the hand's pitch, roll, and yaw angles
+		//                std::cout << "Hand pitch: " << direction.pitch() * RAD_TO_DEG << " degrees, "
+		//                << "roll: " << normal.roll() * RAD_TO_DEG << " degrees, "
+		//                << "yaw: " << direction.yaw() * RAD_TO_DEG << " degrees" << std::endl << std::endl;
+	}
+}
+
+void CPlayState::Init(CGameEngine* game)
+{
+	printf("CPlayState Init\n");
+  
+	// Have the sample listener receive events from the controller
+	controller.addListener(listener);
+    
+	timer = game->device->getTimer();
+	then = timer->getTime();
+	
+    [[NSFileManager defaultManager]
+     changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
+	
+	driver = game->device->getVideoDriver();
+	smgr = game->device->getSceneManager();
+
+	bulletHelper = new CTBulletHelper(driver, smgr);
+	
+	smgr->loadScene("cube.irr");
+	
+	this->initializeCamera();
+
 	handsNode = smgr->addAnimatedMeshSceneNode(smgr->getMesh("Hand_v.4.b3d"), 0, 0 | 0);
 	handsNode->setPosition(core::vector3df(83,-60,5));
-	handsNode->setRotation(core::vector3df(38,160,30));
+	handsNode->setRotation(core::vector3df(48,150,30));
 	handsNode->setScale(core::vector3df(12, 12, 12));
 	handsNode->setMaterialFlag(video::EMF_LIGHTING, 1);
 	handsNode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
@@ -221,7 +216,7 @@ void CPlayState::Init(CGameEngine* game)
 	handsMaterial.setTexture(0, driver->getTexture("HAND_C.jpg"));
 	handsMaterial.Lighting = true;
 	handsMaterial.NormalizeNormals = true;
-//
+
 	handsNode->getMaterial(0) = handsMaterial;
    
 	this->initalizeGUI(game);
@@ -288,34 +283,65 @@ void CPlayState::Draw(CGameEngine* game)
 	bool soundplaying = false;
 	
 	if(game->device->run()) {
+
 		if (game->device->isWindowActive())
 		{
-
-            bulletHelper->UpdatePhysics(50);
+            //bulletHelper->UpdatePhysics(50);
 		
             // Get the most recent frame and report some basic information
             const Frame frame = controller.frame();
-			this->leapLog(frame);
+			//this->leapLog(frame);
 
 			if (!frame.hands().empty()) {
-				
+		           
 				// Get the first hand
 				const Hand hand = frame.hands()[0];
 				
 				const Vector normal = hand.palmNormal();
 				const Vector direction = hand.direction();
+
+				float x = ((direction.pitch() * RAD_TO_DEG) * -1) + 20;
+                float y = ((direction.yaw() * RAD_TO_DEG)) + 273;
+                float z = ((normal.roll() * RAD_TO_DEG) * -1) + 356;
 				
-				float x = ((direction.pitch() * RAD_TO_DEG - 30) * -1);
-                float y = (direction.yaw() * RAD_TO_DEG) - 50;
-                float z = (normal.roll() * RAD_TO_DEG) + 50;
+                IBoneSceneNode *leftHandBone = handsNode->getJointNode("hand.L");
+				const vector3df lhr = leftHandBone->getRotation();
+                
+				leftHandBone->setRotation(vector3df(x,y,lhr.Z));
 				
-				IBoneSceneNode* Head = handsNode->getJointNode("hand.L");
-				
-				Head->setRotation(vector3df(x,y,z));
-				
-//				handsNode->setRotation(core::vector3df(x, y, z));
-				
-				printf("%f, %f, %f\n\n", x,y,z);				
+                
+                
+                FingerList fingers = hand.fingers();
+                
+                // FINGER - INDEX
+                
+                IBoneSceneNode *indexFingerBone = handsNode->getJointNode("finger_index.01.L");
+                const vector3df ifr = indexFingerBone->getRotation();
+                
+                //NSLog(@"%f %f %f", ifr.X, ifr.Y, ifr.Z);
+                
+                const Vector finger = fingers[0].tipPosition();
+                x = (finger.pitch() * RAD_TO_DEG) - 180;
+                y = finger.yaw() * RAD_TO_DEG + 12;
+                z = finger.roll() * RAD_TO_DEG + 3;
+                
+                //printf("x: %f", x);
+                
+                indexFingerBone->setRotation(vector3df(x,ifr.Y,ifr.Z));
+                
+                
+                
+                // for roll...
+                
+//                IBoneSceneNode *leftForearmBone = handsNode->getJointNode("forearm.L");
+//                vector3df lfr = leftForearmBone->getRotation();
+//                printf("initial rot of hand node: %f %f %f\n", lfr.X, lfr.Y, lfr.Z);
+//
+//                leftForearmBone->setRotation(vector3df(lfr.X, lfr.Y, z));
+                
+                
+                
+				//printf("%f, %f, %f\n\n", x,y,z);
 			}
             
 			driver->beginScene(true, true, video::SColor(0,200,200,200));
@@ -336,6 +362,11 @@ void CPlayState::Draw(CGameEngine* game)
 				game->device->setWindowCaption(str.c_str());
 				lastFPS = fps;
 			}
+            
+//            const vector3df camPos = camera->getPosition();
+//            const vector3df camRot = camera->getRotation();
+            
+            //NSLog(@"%f %f %f --- %f %f %f", camPos.X, camPos.Y, camPos.Z, camRot.X, camRot.Y, camRot.Z);
 		}
 	}
 }

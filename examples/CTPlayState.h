@@ -73,6 +73,10 @@ private:
 	u32 then, now;
 	
 	CTBulletHelper *bulletHelper;
+	
+	void initBones();
+	IBoneSceneNode *leftHandBone;
+	IBoneSceneNode *indexFingerBone;
 };
 
 #endif /* defined(__Contratempo__CTPlayState__) */

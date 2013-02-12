@@ -203,7 +203,6 @@
 		38E1A4C716C281780003B3A5 /* default_skyboxdn.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4BF16C281780003B3A5 /* default_skyboxdn.jpg */; };
 		38E1A4C816C281780003B3A5 /* plaster-leaking.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4C016C281780003B3A5 /* plaster-leaking.jpg */; };
 		38E1A4CA16C281D60003B3A5 /* default_skyboxup.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4C916C281D60003B3A5 /* default_skyboxup.jpg */; };
-		38E1A4D216C28AB20003B3A5 /* Hand1.b3d in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4D116C28AB20003B3A5 /* Hand1.b3d */; };
 		38E1A4D416C28FB00003B3A5 /* Cavity.png in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4D316C28FB00003B3A5 /* Cavity.png */; };
 		4C364EA40A6C6DC2004CFBB4 /* COBJMeshFileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C364EA20A6C6DC2004CFBB4 /* COBJMeshFileLoader.cpp */; };
 		4C43EEC00A74A5C800F942FC /* CPakReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C43EEBE0A74A5C800F942FC /* CPakReader.cpp */; };
@@ -1133,7 +1132,6 @@
 		38E1A4BF16C281780003B3A5 /* default_skyboxdn.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default_skyboxdn.jpg; sourceTree = "<group>"; };
 		38E1A4C016C281780003B3A5 /* plaster-leaking.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "plaster-leaking.jpg"; sourceTree = "<group>"; };
 		38E1A4C916C281D60003B3A5 /* default_skyboxup.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default_skyboxup.jpg; sourceTree = "<group>"; };
-		38E1A4D116C28AB20003B3A5 /* Hand1.b3d */ = {isa = PBXFileReference; lastKnownFileType = file; path = Hand1.b3d; sourceTree = "<group>"; };
 		38E1A4D316C28FB00003B3A5 /* Cavity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cavity.png; sourceTree = "<group>"; };
 		4C364EA20A6C6DC2004CFBB4 /* COBJMeshFileLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = COBJMeshFileLoader.cpp; sourceTree = "<group>"; };
 		4C364EA30A6C6DC2004CFBB4 /* COBJMeshFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = COBJMeshFileLoader.h; sourceTree = "<group>"; };
@@ -2584,7 +2582,6 @@
 				3874639716C44D02009766F8 /* stones.jpg */,
 				3874639816C44D02009766F8 /* water.jpg */,
 				38E1A4D316C28FB00003B3A5 /* Cavity.png */,
-				38E1A4D116C28AB20003B3A5 /* Hand1.b3d */,
 				38E1A4B916C281780003B3A5 /* concrete-1.jpg */,
 				38E1A4B416C280CD0003B3A5 /* cube.irr */,
 				38E1A4B716C281500003B3A5 /* cube.irr.meshes */,
@@ -3157,7 +3154,7 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "MacOSX" */;
+			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "Leap" */;
 			compatibilityVersion = "Xcode 2.4";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -3205,7 +3202,6 @@
 				38E1A4C716C281780003B3A5 /* default_skyboxdn.jpg in Resources */,
 				38E1A4C816C281780003B3A5 /* plaster-leaking.jpg in Resources */,
 				38E1A4CA16C281D60003B3A5 /* default_skyboxup.jpg in Resources */,
-				38E1A4D216C28AB20003B3A5 /* Hand1.b3d in Resources */,
 				38E1A4D416C28FB00003B3A5 /* Cavity.png in Resources */,
 				3874639916C44D02009766F8 /* stones.jpg in Resources */,
 				3874639A16C44D02009766F8 /* water.jpg in Resources */,
@@ -4132,7 +4128,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "MacOSX" */ = {
+		1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "Leap" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB922308733DC00010E9CD /* Debug */,

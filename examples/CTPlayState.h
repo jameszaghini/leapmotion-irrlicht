@@ -52,6 +52,7 @@ private:
 	IGUIEnvironment *env;
 	IGUIEditBox *posX, *posY, *posZ;
 	IGUIEditBox *rotX, *rotY, *rotZ;
+	IGUIListBox *boneListBox;
 
 	void leapLog(const Frame frame);
 	
@@ -74,6 +75,7 @@ private:
 	
 	CTBulletHelper *bulletHelper;
 	
+	void getAllBones();
 	void initBones();
 	IBoneSceneNode *leftHandBone;
 	IBoneSceneNode *indexFingerBone;

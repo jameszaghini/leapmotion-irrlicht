@@ -13,6 +13,7 @@
 #include "CTGameEngine.h"
 #include "CTPlayState.h"
 #include <sstream>
+#include <vector>
 
 CPlayState CPlayState::m_PlayState;
 
@@ -28,6 +29,28 @@ void CPlayState::initBones()
 {
 	leftHandBone = handsNode->getJointNode("hand.L");
 	indexFingerBone = handsNode->getJointNode("finger_index.01.L");
+}
+
+void CPlayState::getAllBones()
+{
+	int numberOfBones = handsNode->getJointCount();
+	
+	std::vector<IBoneSceneNode*> bones;
+	
+	for(int i=0; i < numberOfBones; i++) {
+		
+		IBoneSceneNode *bone = handsNode->getJointNode(i);
+
+		const size_t cSize = strlen(bone->getName())+1;
+		wchar_t* wc = new wchar_t[cSize];
+		mbstowcs (wc, bone->getName(), cSize);
+				
+		boneListBox->addItem(wc);
+		
+		delete wc;
+		
+		bones.push_back(bone);
+	}
 }
 
 void CPlayState::initializeCamera()
@@ -66,7 +89,7 @@ void CPlayState::initializeCamera()
 	 more informed decision about which nodes to performs collision checks
 	 on; you could capture that information in the node name or Id.
 	 */
-	core::array<scene::ISceneNode *> nodes;
+	array<scene::ISceneNode *> nodes;
 	smgr->getSceneNodesFromType(scene::ESNT_ANY, nodes); // Find all nodes
 	
 	for (u32 i=0; i < nodes.size(); ++i)
@@ -117,8 +140,8 @@ void CPlayState::initializeCamera()
 	 */
 	
 	scene::ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(
-																			meta, camera, core::vector3df(3,3,3),
-																			core::vector3df(0,-35,0), core::vector3df(0,30,0));
+																			meta, camera, vector3df(3,3,3),
+																			vector3df(0,-35,0), vector3df(0,30,0));
 	meta->drop(); // I'm done with the meta selector now
 	
 	camera->addAnimator(anim);
@@ -133,8 +156,8 @@ void CPlayState::initalizeGUI(CGameEngine* game)
 {
 	env = game->device->getGUIEnvironment();
 	
-	core::vector3df rotation = handsNode->getRotation();
-    core::vector3df position = handsNode->getPosition();
+	vector3df rotation = handsNode->getRotation();
+    vector3df position = handsNode->getPosition();
 	
 	env->addStaticText(L"Rotation x,y,z", rect<s32>(10,1,100,10));
 	
@@ -147,6 +170,8 @@ void CPlayState::initalizeGUI(CGameEngine* game)
 	posX = env->addEditBox(getstring_float(position.X), rect<s32>(10,95,100,110));
 	posY = env->addEditBox(getstring_float(position.Y), rect<s32>(10,120,100,135));
 	posZ = env->addEditBox(getstring_float(position.Z), rect<s32>(10,145,100,160));
+	
+	boneListBox = env->addListBox(rect<s32>(50, 140, 250, 210));
 }
 
 void CPlayState::leapLog(const Frame frame)
@@ -213,9 +238,9 @@ void CPlayState::Init(CGameEngine* game)
 	this->initializeCamera();
 
 	handsNode = smgr->addAnimatedMeshSceneNode(smgr->getMesh("Hand_v.4.b3d"), 0, 0 | 0);
-	handsNode->setPosition(core::vector3df(83,-60,5));
-	handsNode->setRotation(core::vector3df(48,150,30));
-	handsNode->setScale(core::vector3df(12, 12, 12));
+	handsNode->setPosition(vector3df(83,-60,5));
+	handsNode->setRotation(vector3df(48,150,30));
+	handsNode->setScale(vector3df(12, 12, 12));
 	handsNode->setMaterialFlag(video::EMF_LIGHTING, 1);
 	handsNode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
 	handsNode->setJointMode(irr::scene::EJUOR_CONTROL);
@@ -226,8 +251,9 @@ void CPlayState::Init(CGameEngine* game)
 	handsNode->getMaterial(0) = handsMaterial;
 
 	this->initBones();
-	
 	this->initalizeGUI(game);
+	this->getAllBones();
+	
 
 	//camera->addChild(handsNode);
 }
@@ -309,13 +335,15 @@ void CPlayState::Draw(CGameEngine* game)
 				const Vector direction = hand.direction();
 
 				float x = ((direction.pitch() * RAD_TO_DEG) * -1) + 20;
-                float y = ((direction.yaw() * RAD_TO_DEG)) + 356;
-                float z = ((normal.roll() * RAD_TO_DEG)) + 273;
+                float y = ((normal.roll() * RAD_TO_DEG)) + 273;
+				float z = ((direction.yaw() * RAD_TO_DEG)) + 19.82;
+                
 				
                 
 				const vector3df lhr = leftHandBone->getRotation();
                 
-				leftHandBone->setRotation(vector3df(x,z,y));
+				
+				leftHandBone->setRotation(vector3df(x,y,lhr.Z));
 				
                 
                 
@@ -361,7 +389,7 @@ void CPlayState::Draw(CGameEngine* game)
 			int fps = driver->getFPS();
 			if (lastFPS != fps)
 			{
-				core::stringw str = L"Contratempo [";
+				stringw str = L"Contratempo [";
 				str += driver->getName();
 				str += "] FPS:";
 				str += fps;

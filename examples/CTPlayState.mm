@@ -282,10 +282,6 @@ void CPlayState::Resume()
 
 void CPlayState::HandleEvents(CGameEngine* game)
 {
-    if(game->receiver.IsKeyPressed(KEY_KEY_P)) {
-        game->PushState(CPauseState::Instance());
-	}
-	
 	if(game->receiver.IsKeyPressed(KEY_RETURN)) {
 		
 		float x = (float)wcstod(posX->getText(), NULL);

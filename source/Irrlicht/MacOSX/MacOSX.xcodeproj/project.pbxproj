@@ -172,7 +172,6 @@
 		3858326616C11C6700381D7F /* CTAudioController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3858325D16C11C6700381D7F /* CTAudioController.mm */; };
 		3858326716C11C6700381D7F /* CTGameEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3858325E16C11C6700381D7F /* CTGameEngine.cpp */; };
 		3858326816C11C6700381D7F /* CTGameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3858326016C11C6700381D7F /* CTGameState.cpp */; };
-		3858326916C11C6700381D7F /* CTPauseState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3858326216C11C6700381D7F /* CTPauseState.cpp */; };
 		3858326A16C11C6700381D7F /* CTPlayState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3858326516C11C6700381D7F /* CTPlayState.mm */; };
 		3858326C16C11E6D00381D7F /* fmod in Resources */ = {isa = PBXBuildFile; fileRef = 3858326B16C11E6D00381D7F /* fmod */; };
 		3858326E16C11EA900381D7F /* inc in Resources */ = {isa = PBXBuildFile; fileRef = 3858326D16C11EA900381D7F /* inc */; };
@@ -1099,8 +1098,6 @@
 		3858325F16C11C6700381D7F /* CTGameEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTGameEngine.h; sourceTree = "<group>"; };
 		3858326016C11C6700381D7F /* CTGameState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTGameState.cpp; sourceTree = "<group>"; };
 		3858326116C11C6700381D7F /* CTGameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTGameState.h; sourceTree = "<group>"; };
-		3858326216C11C6700381D7F /* CTPauseState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTPauseState.cpp; sourceTree = "<group>"; };
-		3858326316C11C6700381D7F /* CTPauseState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTPauseState.h; sourceTree = "<group>"; };
 		3858326416C11C6700381D7F /* CTPlayState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTPlayState.h; sourceTree = "<group>"; };
 		3858326516C11C6700381D7F /* CTPlayState.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CTPlayState.mm; sourceTree = "<group>"; };
 		3858326B16C11E6D00381D7F /* fmod */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fmod; sourceTree = "<group>"; };
@@ -2613,8 +2610,6 @@
 				3858325F16C11C6700381D7F /* CTGameEngine.h */,
 				3858326016C11C6700381D7F /* CTGameState.cpp */,
 				3858326116C11C6700381D7F /* CTGameState.h */,
-				3858326216C11C6700381D7F /* CTPauseState.cpp */,
-				3858326316C11C6700381D7F /* CTPauseState.h */,
 				3858326416C11C6700381D7F /* CTPlayState.h */,
 				3858326516C11C6700381D7F /* CTPlayState.mm */,
 				387463A616C5FC01009766F8 /* main.cpp */,
@@ -3541,7 +3536,6 @@
 				3858326616C11C6700381D7F /* CTAudioController.mm in Sources */,
 				3858326716C11C6700381D7F /* CTGameEngine.cpp in Sources */,
 				3858326816C11C6700381D7F /* CTGameState.cpp in Sources */,
-				3858326916C11C6700381D7F /* CTPauseState.cpp in Sources */,
 				3858326A16C11C6700381D7F /* CTPlayState.mm in Sources */,
 				387463A516C5FBD2009766F8 /* CTBulletHelper.cpp in Sources */,
 				387463A716C5FC01009766F8 /* main.cpp in Sources */,

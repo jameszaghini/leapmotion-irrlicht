@@ -12,7 +12,6 @@
 #include "irrlicht.h"
 #include "CTEventReceiver.h"
 #include "CTGameState.h"
-#include "CTPauseState.h"
 #include "CTAudioController.h"
 #include "Leap.h"
 #include "CTBulletHelper.h"
@@ -21,6 +20,7 @@ using namespace irr;
 using namespace core;
 using namespace video;
 using namespace scene;
+using namespace gui;
 using namespace Leap;
 
 

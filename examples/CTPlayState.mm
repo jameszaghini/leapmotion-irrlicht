@@ -154,7 +154,14 @@ void CPlayState::initializeCamera()
 
 void CPlayState::initalizeGUI(CGameEngine* game)
 {
+	[[NSFileManager defaultManager]
+     changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
+	
 	env = game->device->getGUIEnvironment();
+	IGUISkin *skin = env->getSkin();
+	IGUIFont* font = env->getFont("fonthaettenschweiler.bmp");
+    if (font)
+        skin->setFont(font);
 	
 	vector3df rotation = handsNode->getRotation();
     vector3df position = handsNode->getPosition();

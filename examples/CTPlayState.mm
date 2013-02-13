@@ -165,20 +165,23 @@ void CPlayState::initalizeGUI(CGameEngine* game)
 	
 	vector3df rotation = handsNode->getRotation();
     vector3df position = handsNode->getPosition();
+
+	int y = 10;
 	
-	env->addStaticText(L"Rotation x,y,z", rect<s32>(10,1,100,10));
+	boneListBox = env->addListBox(rect<s32>(10, y, 100, y+15));
+	boneListBox->setDrawBackground(true);
 	
-	rotX = env->addEditBox(getstring_float(rotation.X), rect<s32>(10,10,100,25));
-	rotY = env->addEditBox(getstring_float(rotation.Y), rect<s32>(10,35,100,50));
-	rotZ = env->addEditBox(getstring_float(rotation.Z), rect<s32>(10,60,100,75));
+	env->addStaticText(L"Rotation x,y,z", rect<s32>(10,y+=30,100,y+15));
 	
-	env->addStaticText(L"Position x,y,z", rect<s32>(10,84,100,94));
+	rotX = env->addEditBox(getstring_float(rotation.X), rect<s32>(10,y+=20,100,y+15));
+	rotY = env->addEditBox(getstring_float(rotation.Y), rect<s32>(10,y+=20,100,y+15));
+	rotZ = env->addEditBox(getstring_float(rotation.Z), rect<s32>(10,y+=20,100,y+15));
 	
-	posX = env->addEditBox(getstring_float(position.X), rect<s32>(10,95,100,110));
-	posY = env->addEditBox(getstring_float(position.Y), rect<s32>(10,120,100,135));
-	posZ = env->addEditBox(getstring_float(position.Z), rect<s32>(10,145,100,160));
+	env->addStaticText(L"Position x,y,z", rect<s32>(10,y+=30,100,y+15));
 	
-	boneListBox = env->addListBox(rect<s32>(50, 140, 250, 210));
+	posX = env->addEditBox(getstring_float(position.X), rect<s32>(10,y+=20,100,y+15));
+	posY = env->addEditBox(getstring_float(position.Y), rect<s32>(10,y+=20,100,y+15));
+	posZ = env->addEditBox(getstring_float(position.Z), rect<s32>(10,y+=20,100,y+15));
 }
 
 void CPlayState::leapLog(const Frame frame)

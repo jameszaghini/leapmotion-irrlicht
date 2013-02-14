@@ -357,18 +357,24 @@ void CPlayState::Draw(CGameEngine* game)
                 
                 // FINGER - INDEX
                 
-//                const vector3df ifr = indexFingerBone->getRotation();
-//                
-//                //NSLog(@"%f %f %f", ifr.X, ifr.Y, ifr.Z);
-//                
-//                const Vector finger = fingers[0].tipPosition();
-//                x = (finger.pitch() * RAD_TO_DEG) - 180;
-//                y = finger.yaw() * RAD_TO_DEG + 12;
-//                z = finger.roll() * RAD_TO_DEG + 3;
-//                
-//                //printf("x: %f", x);
-//                
-//                indexFingerBone->setRotation(vector3df(x,ifr.Y,ifr.Z));
+                const vector3df ifr = indexFingerBone->getRotation();
+                
+				
+                const Vector finger = fingers[0].tipPosition();
+				
+				Finger index = fingers[0];
+				
+				std::cout << finger.toString();
+				
+                NSLog(@"%f", (finger.pitch() * RAD_TO_DEG));
+				
+				x = ((finger.pitch() + 63) * RAD_TO_DEG) + 6.19; // 6.19 is initial bone val, 63 is leaps initial value
+				y = finger.yaw() * RAD_TO_DEG + 12;
+                z = finger.roll() * RAD_TO_DEG + 3;
+                
+                //printf("x: %f", x);
+                
+               // indexFingerBone->setRotation(vector3df(x,ifr.Y,ifr.Z));
                 
                 
                 

@@ -46,15 +46,10 @@ protected:
 	
 private:
     
-	void initializeCamera();
-
-    void initalizeGUI(CGameEngine* game);
 	IGUIEnvironment *env;
 	IGUIEditBox *posX, *posY, *posZ;
 	IGUIEditBox *rotX, *rotY, *rotZ;
 	IGUIListBox *boneListBox;
-
-	void leapLog(const Frame frame);
 	
 	static CPlayState m_PlayState;
 
@@ -65,6 +60,7 @@ private:
     
     IAnimatedMeshSceneNode *handsNode;
     SMaterial handsMaterial;
+	SMaterial planeMaterial;
 
 	// Create a sample listener and controller
 	Listener listener;
@@ -75,10 +71,21 @@ private:
 	
 	CTBulletHelper *bulletHelper;
 	
-	void getAllBones();
-	void initBones();
 	IBoneSceneNode *leftHandBone;
 	IBoneSceneNode *indexFingerBone;
+
+	
+	void initCamera();
+    void initGUI(CGameEngine* game);
+	void initSky();
+	void initPlane();
+	void initHands();
+	void initBones();
+	
+	void getAllBones();
+	
+	void leapLog(const Frame frame);
+	
 };
 
 #endif /* defined(__Contratempo__CTPlayState__) */

@@ -25,6 +25,37 @@ const wchar_t* getstring_float(float num)
 	return &temp;
 }
 
+void CPlayState::Init(CGameEngine* game)
+{
+	printf("CPlayState Init\n");
+	
+	// Have the sample listener receive events from the controller
+	controller.addListener(listener);
+    
+	timer = game->device->getTimer();
+	then = timer->getTime();
+	
+    [[NSFileManager defaultManager]
+     changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
+	
+	driver = game->device->getVideoDriver();
+	smgr = game->device->getSceneManager();
+	
+	bulletHelper = new CTBulletHelper(driver, smgr);
+	
+	smgr->setAmbientLight(SColorf(1.0f, 1.0f, 1.0f));
+	
+	this->initPlane();
+	this->initCamera();
+	this->initHands();
+	this->initBones();
+	this->initGUI(game);
+	this->getAllBones();
+	
+	
+	//camera->addChild(handsNode);
+}
+
 void CPlayState::initBones()
 {
 	leftHandBone = handsNode->getJointNode("hand.L");
@@ -53,7 +84,16 @@ void CPlayState::getAllBones()
 	}
 }
 
-void CPlayState::initializeCamera()
+void CPlayState::initSky()
+{
+	[[NSFileManager defaultManager]
+     changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
+	smgr->addSkyDomeSceneNode(driver->getTexture("skydome.jpg"),16,16,1.0f,2.0f);
+		
+	ISceneNode *cube = smgr->addCubeSceneNode(15.0f, 0, -1, core::vector3df(150,10,10));
+}
+
+void CPlayState::initCamera()
 {
 	SKeyMap *keyMap = new SKeyMap();
 	keyMap[0].Action = EKA_MOVE_FORWARD;
@@ -79,7 +119,7 @@ void CPlayState::initializeCamera()
 	float jumpSpeed = 7.f;
 	
 	camera = smgr->addCameraSceneNodeFPS(0, rotationSpeed,  moveSpeed, 0, keyMap, 6, true, jumpSpeed);
-
+	
     // Create a meta triangle selector to hold several triangle selectors.
 	scene::IMetaTriangleSelector * meta = smgr->createMetaTriangleSelector();
 	
@@ -139,20 +179,17 @@ void CPlayState::initializeCamera()
 	 to the meta selector, create a collision response animator from that meta selector.
 	 */
 	
-	scene::ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(
-																			meta, camera, vector3df(3,3,3),
-																			vector3df(0,-35,0), vector3df(0,30,0));
+	scene::ISceneNodeAnimator* anim;
+	anim = smgr->createCollisionResponseAnimator(meta, camera, vector3df(3,3,3), vector3df(0,-10,0), vector3df(0,30,0));
 	meta->drop(); // I'm done with the meta selector now
 	
 	camera->addAnimator(anim);
 	anim->drop(); // I'm done with the animator now
 	
-    camera->setTarget(vector3df(12,45,0));
-	camera->setPosition(vector3df(86.15f, -40.33f, -3.2f));
-//    camera->setRotation(vector3df(10.81f, 51.96f, 0));
+	camera->setPosition(vector3df(0, 100, 0));
 }
 
-void CPlayState::initalizeGUI(CGameEngine* game)
+void CPlayState::initGUI(CGameEngine* game)
 {
 	[[NSFileManager defaultManager]
      changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
@@ -225,30 +262,21 @@ void CPlayState::leapLog(const Frame frame)
 	}
 }
 
-void CPlayState::Init(CGameEngine* game)
+void CPlayState::initPlane()
 {
-	printf("CPlayState Init\n");
-  
-	// Have the sample listener receive events from the controller
-	controller.addListener(listener);
-    
-	timer = game->device->getTimer();
-	then = timer->getTime();
+	planeMaterial.setTexture(0, driver->getTexture("concrete-1.jpg"));
+	planeMaterial.Lighting = true;
+	planeMaterial.NormalizeNormals = true;
 	
-    [[NSFileManager defaultManager]
-     changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
+	IMesh *plane = smgr->getGeometryCreator()->createPlaneMesh(dimension2df(1000,1000), dimension2du(1,1), &planeMaterial, dimension2df(1,1));
 	
-	driver = game->device->getVideoDriver();
-	smgr = game->device->getSceneManager();
+	ISceneNode *ground = smgr->addMeshSceneNode(plane);
+}
 
-	bulletHelper = new CTBulletHelper(driver, smgr);
-	
-	smgr->loadScene("cube.irr");
-	
-	this->initializeCamera();
-
+void CPlayState::initHands()
+{	
 	handsNode = smgr->addAnimatedMeshSceneNode(smgr->getMesh("Hand_v.4.b3d"), 0, 0 | 0);
-	handsNode->setPosition(vector3df(83,-60,5));
+	handsNode->setPosition(vector3df(0,0,0));
 	handsNode->setRotation(vector3df(48,150,30));
 	handsNode->setScale(vector3df(12, 12, 12));
 	handsNode->setMaterialFlag(video::EMF_LIGHTING, 1);
@@ -257,15 +285,8 @@ void CPlayState::Init(CGameEngine* game)
 	handsMaterial.setTexture(0, driver->getTexture("HAND_C.jpg"));
 	handsMaterial.Lighting = true;
 	handsMaterial.NormalizeNormals = true;
-
-	handsNode->getMaterial(0) = handsMaterial;
-
-	this->initBones();
-	this->initalizeGUI(game);
-	this->getAllBones();
 	
-
-	//camera->addChild(handsNode);
+	handsNode->getMaterial(0) = handsMaterial;
 }
 
 void CPlayState::Cleanup()
@@ -300,9 +321,8 @@ void CPlayState::HandleEvents(CGameEngine* game)
 		handsNode->setRotation(vector3df(x,y,z));
 	}
 	
-	
     if(game->receiver.IsKeyDown(KEY_ESCAPE)) {
-        exit(0);
+		game->Quit();
     }
 	
 	game->receiver.reset();

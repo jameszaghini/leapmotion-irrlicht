@@ -167,6 +167,7 @@
 		34EF91D80F65FCF6000B5651 /* CPLYMeshFileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 34EF91D60F65FCF6000B5651 /* CPLYMeshFileLoader.cpp */; };
 		34EF91DC0F65FD14000B5651 /* CPLYMeshWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 34EF91DA0F65FD14000B5651 /* CPLYMeshWriter.h */; };
 		34EF91DD0F65FD14000B5651 /* CPLYMeshWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 34EF91DB0F65FD14000B5651 /* CPLYMeshWriter.cpp */; };
+		38372C0816CFC7FB004EE581 /* skydome.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 38372C0716CFC7FB004EE581 /* skydome.jpg */; };
 		383D0AEB16B93D02000B713D /* Leap.h in Headers */ = {isa = PBXBuildFile; fileRef = 383D0AEA16B93D02000B713D /* Leap.h */; };
 		3858325B16C11C5800381D7F /* CTEventReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3858325916C11C5800381D7F /* CTEventReceiver.cpp */; };
 		3858326616C11C6700381D7F /* CTAudioController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3858325D16C11C6700381D7F /* CTAudioController.mm */; };
@@ -1088,6 +1089,7 @@
 		34EF91D60F65FCF6000B5651 /* CPLYMeshFileLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPLYMeshFileLoader.cpp; sourceTree = "<group>"; };
 		34EF91DA0F65FD14000B5651 /* CPLYMeshWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPLYMeshWriter.h; sourceTree = "<group>"; };
 		34EF91DB0F65FD14000B5651 /* CPLYMeshWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPLYMeshWriter.cpp; sourceTree = "<group>"; };
+		38372C0716CFC7FB004EE581 /* skydome.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = skydome.jpg; sourceTree = "<group>"; };
 		383D0AEA16B93D02000B713D /* Leap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Leap.h; path = ../source/Irrlicht/MacOSX/Leap.h; sourceTree = "<group>"; };
 		383D0AEC16B93D1F000B713D /* LeapMath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LeapMath.h; path = ../source/Irrlicht/MacOSX/LeapMath.h; sourceTree = "<group>"; };
 		3858325916C11C5800381D7F /* CTEventReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTEventReceiver.cpp; sourceTree = "<group>"; };
@@ -2574,6 +2576,7 @@
 		38E1A4B616C2813D0003B3A5 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				38372C0716CFC7FB004EE581 /* skydome.jpg */,
 				38C6BFE516CBA13400C6F31B /* fonthaettenschweiler.bmp */,
 				3874639D16C52983009766F8 /* HAND_C.jpg */,
 				3874639E16C52983009766F8 /* HAND_N .jpg */,
@@ -3208,6 +3211,7 @@
 				387463A116C52983009766F8 /* HAND_N .jpg in Resources */,
 				387463A216C52983009766F8 /* HAND_S.jpg in Resources */,
 				38C6BFE616CBA13400C6F31B /* fonthaettenschweiler.bmp in Resources */,
+				38372C0816CFC7FB004EE581 /* skydome.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

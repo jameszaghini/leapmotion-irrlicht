@@ -42,6 +42,8 @@ void CGameEngine::Cleanup()
 		states.pop_back();
 	}
 	
+	device->closeDevice();
+	
 	printf("CGameEngine Cleanup\n");
 }
 

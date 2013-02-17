@@ -72,8 +72,8 @@ private:
 	CTBulletHelper *bulletHelper;
 	
 	IBoneSceneNode *leftHandBone;
+	IBoneSceneNode *leftHandFingerBones[5];
 	IBoneSceneNode *indexFingerBone;
-
 	
 	void initCamera();
     void initGUI(CGameEngine* game);

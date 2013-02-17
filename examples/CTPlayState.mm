@@ -60,6 +60,8 @@ void CPlayState::initBones()
 {
 	leftHandBone = handsNode->getJointNode("hand.L");
 	indexFingerBone = handsNode->getJointNode("finger_index.01.L");
+	
+	camera->setTarget(leftHandBone->getAbsolutePosition());
 }
 
 void CPlayState::getAllBones()
@@ -276,9 +278,9 @@ void CPlayState::initPlane()
 void CPlayState::initHands()
 {	
 	handsNode = smgr->addAnimatedMeshSceneNode(smgr->getMesh("Hand_v.4.b3d"), 0, 0 | 0);
-	handsNode->setPosition(vector3df(0,0,0));
+	handsNode->setPosition(vector3df(0,-150,0));
 	handsNode->setRotation(vector3df(48,150,30));
-	handsNode->setScale(vector3df(12, 12, 12));
+	handsNode->setScale(vector3df(120, 120, 120));
 	handsNode->setMaterialFlag(video::EMF_LIGHTING, 1);
 	handsNode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
 	handsNode->setJointMode(irr::scene::EJUOR_CONTROL);
@@ -374,27 +376,26 @@ void CPlayState::Draw(CGameEngine* game)
                 
                 
                 FingerList fingers = hand.fingers();
+				
+				for(int i=0; i < fingers.count(); i++) {
+					leftHandFingerBones[i] = fingers
+				}
                 
                 // FINGER - INDEX
                 
                 const vector3df ifr = indexFingerBone->getRotation();
-                
-				
+			
                 const Vector finger = fingers[0].tipPosition();
 				
-				Finger index = fingers[0];
-				
-				std::cout << finger.toString();
-				
-                NSLog(@"%f", (finger.pitch() * RAD_TO_DEG));
-				
-				x = ((finger.pitch() + 63) * RAD_TO_DEG) + 6.19; // 6.19 is initial bone val, 63 is leaps initial value
-				y = finger.yaw() * RAD_TO_DEG + 12;
-                z = finger.roll() * RAD_TO_DEG + 3;
+				const Vector indexDirection = fingers[0].direction();
+			
+				x = (finger.pitch() * RAD_TO_DEG) + 6.19 - 45; // 6.19 is initial bone val, 63 is leaps initial value
+				//y = finger.yaw() * RAD_TO_DEG + 12;
+                //z = finger.roll() * RAD_TO_DEG + 3;
                 
                 //printf("x: %f", x);
                 
-               // indexFingerBone->setRotation(vector3df(x,ifr.Y,ifr.Z));
+				indexFingerBone->setRotation(vector3df(x,ifr.Y,ifr.Z));
                 
                 
                 

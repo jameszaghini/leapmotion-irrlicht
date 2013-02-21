@@ -377,42 +377,49 @@ void CPlayState::Draw(CGameEngine* game)
                 FingerList fingers = hand.fingers();
                 
                 // PINKY                
-                const vector3df pfr = indexFingerBone->getRotation();
+                const vector3df pfr = pinkyFingerBone->getRotation();
+//				std::cout << "Pinky: " << pfr.X << std::endl;
 				if(fingers[0].isValid()) {
-					const Vector pinkyDirection = fingers[0].direction();
-					x = (pinkyDirection.pitch() * RAD_TO_DEG * -1) + 6.19; // 6.19 is initial bone
+					const Vector pinkyDirection = fingers[3].direction();
+					x = (pinkyDirection.pitch() * RAD_TO_DEG * -1) + 15.3019; // 15.3019 initial bone X val
 					pinkyFingerBone->setRotation(vector3df(x,pfr.Y,pfr.Z));
 				}
 				
 				// RING
-                const vector3df rfr = indexFingerBone->getRotation();
+                const vector3df rfr = ringFingerBone->getRotation();
+//				std::cout << "Ring: " << rfr.X << std::endl;
 				if(fingers[1].isValid()) {
 					const Vector ringDirection = fingers[1].direction();
-					x = (ringDirection.pitch() * RAD_TO_DEG * -1) + 6.19; // 6.19 is initial bone
+					x = (ringDirection.pitch() * RAD_TO_DEG * -1) + 8.035;
 					ringFingerBone->setRotation(vector3df(x,rfr.Y,rfr.Z));
 				}
 				
 				// MIDDLE
-                const vector3df mfr = indexFingerBone->getRotation();
+                const vector3df mfr = middleFingerBone->getRotation();
+//				std::cout << "Middle: " << mfr.X << std::endl;
 				if(fingers[2].isValid()) {
-					const Vector middleDirection = fingers[2].direction();
-					x = (middleDirection.pitch() * RAD_TO_DEG * -1) + 6.19; // 6.19 is initial bone
+					const Vector middleDirection = fingers[0].direction();
+					x = (middleDirection.pitch() * RAD_TO_DEG * -1) + 11.344;
 					middleFingerBone->setRotation(vector3df(x,mfr.Y,mfr.Z));
 				}
 				
 				// INDEX                
                 const vector3df ifr = indexFingerBone->getRotation();
+//				std::cout << "Index: " << pfr.X << std::endl;
+
 				if(fingers[3].isValid()) {
-					const Vector indexDirection = fingers[3].direction();
-					x = (indexDirection.pitch() * RAD_TO_DEG * -1) + 6.19; // 6.19 is initial bone
+					const Vector indexDirection = fingers[2].direction();
+					x = (indexDirection.pitch() * RAD_TO_DEG * -1) + 15.3019;
 					indexFingerBone->setRotation(vector3df(x,ifr.Y,ifr.Z));
 				}
 				
 				// THUMB
-                const vector3df tfr = indexFingerBone->getRotation();
+                const vector3df tfr = thumbBone->getRotation();
+//				std::cout << "Thumb: " << tfr.X << std::endl;
+				
 				if(fingers[4].isValid()) {
 					const Vector thumbDirection = fingers[4].direction();
-					x = (thumbDirection.pitch() * RAD_TO_DEG * -1) + 6.19; // 6.19 is initial bone
+					x = (thumbDirection.pitch() * RAD_TO_DEG * -1) + 171.849;
 					thumbBone->setRotation(vector3df(x,tfr.Y,tfr.Z));
 				}
 			}

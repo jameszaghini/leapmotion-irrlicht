@@ -60,6 +60,10 @@ void CPlayState::initBones()
 {
 	leftHandBone = handsNode->getJointNode("hand.L");
 	indexFingerBone = handsNode->getJointNode("finger_index.01.L");
+	pinkyFingerBone = handsNode->getJointNode("finger_pinky.01.L");
+	ringFingerBone = handsNode->getJointNode("finger_ring.01.L");
+	middleFingerBone = handsNode->getJointNode("finger_middle.01.L");
+	thumbBone = handsNode->getJointNode("thumb.01.L");
 	
 	camera->setTarget(leftHandBone->getAbsolutePosition());
 }
@@ -366,50 +370,51 @@ void CPlayState::Draw(CGameEngine* game)
                 float y = ((normal.roll() * RAD_TO_DEG)) + 273;
 				float z = ((direction.yaw() * RAD_TO_DEG)) + 19.82;
                 
-				
-                
 				const vector3df lhr = leftHandBone->getRotation();
                 
-				
-				leftHandBone->setRotation(vector3df(x,y,lhr.Z));
-				
-                
+				leftHandBone->setRotation(vector3df(x,y,lhr.Z));            
                 
                 FingerList fingers = hand.fingers();
-				
-				for(int i=0; i < fingers.count(); i++) {
-					leftHandFingerBones[i] = fingers
+                
+                // PINKY                
+                const vector3df pfr = indexFingerBone->getRotation();
+				if(fingers[0].isValid()) {
+					const Vector pinkyDirection = fingers[0].direction();
+					x = (pinkyDirection.pitch() * RAD_TO_DEG * -1) + 6.19; // 6.19 is initial bone
+					pinkyFingerBone->setRotation(vector3df(x,pfr.Y,pfr.Z));
 				}
-                
-                // FINGER - INDEX
-                
-                const vector3df ifr = indexFingerBone->getRotation();
-			
-                const Vector finger = fingers[0].tipPosition();
 				
-				const Vector indexDirection = fingers[0].direction();
-			
-				x = (finger.pitch() * RAD_TO_DEG) + 6.19 - 45; // 6.19 is initial bone val, 63 is leaps initial value
-				//y = finger.yaw() * RAD_TO_DEG + 12;
-                //z = finger.roll() * RAD_TO_DEG + 3;
-                
-                //printf("x: %f", x);
-                
-				indexFingerBone->setRotation(vector3df(x,ifr.Y,ifr.Z));
-                
-                
-                
-                // for roll...
-                
-//                IBoneSceneNode *leftForearmBone = handsNode->getJointNode("forearm.L");
-//                vector3df lfr = leftForearmBone->getRotation();
-//                printf("initial rot of hand node: %f %f %f\n", lfr.X, lfr.Y, lfr.Z);
-//
-//                leftForearmBone->setRotation(vector3df(lfr.X, lfr.Y, z));
-                
-                
-                
-				//printf("%f, %f, %f\n\n", x,y,z);
+				// RING
+                const vector3df rfr = indexFingerBone->getRotation();
+				if(fingers[1].isValid()) {
+					const Vector ringDirection = fingers[1].direction();
+					x = (ringDirection.pitch() * RAD_TO_DEG * -1) + 6.19; // 6.19 is initial bone
+					ringFingerBone->setRotation(vector3df(x,rfr.Y,rfr.Z));
+				}
+				
+				// MIDDLE
+                const vector3df mfr = indexFingerBone->getRotation();
+				if(fingers[2].isValid()) {
+					const Vector middleDirection = fingers[2].direction();
+					x = (middleDirection.pitch() * RAD_TO_DEG * -1) + 6.19; // 6.19 is initial bone
+					middleFingerBone->setRotation(vector3df(x,mfr.Y,mfr.Z));
+				}
+				
+				// INDEX                
+                const vector3df ifr = indexFingerBone->getRotation();
+				if(fingers[3].isValid()) {
+					const Vector indexDirection = fingers[3].direction();
+					x = (indexDirection.pitch() * RAD_TO_DEG * -1) + 6.19; // 6.19 is initial bone
+					indexFingerBone->setRotation(vector3df(x,ifr.Y,ifr.Z));
+				}
+				
+				// THUMB
+                const vector3df tfr = indexFingerBone->getRotation();
+				if(fingers[4].isValid()) {
+					const Vector thumbDirection = fingers[4].direction();
+					x = (thumbDirection.pitch() * RAD_TO_DEG * -1) + 6.19; // 6.19 is initial bone
+					thumbBone->setRotation(vector3df(x,tfr.Y,tfr.Z));
+				}
 			}
             
 			driver->beginScene(true, true, video::SColor(0,200,200,200));
@@ -422,7 +427,7 @@ void CPlayState::Draw(CGameEngine* game)
 			int fps = driver->getFPS();
 			if (lastFPS != fps)
 			{
-				stringw str = L"Contratempo [";
+				stringw str = L"Leap [";
 				str += driver->getName();
 				str += "] FPS:";
 				str += fps;
@@ -430,11 +435,6 @@ void CPlayState::Draw(CGameEngine* game)
 				game->device->setWindowCaption(str.c_str());
 				lastFPS = fps;
 			}
-            
-//            const vector3df camPos = camera->getPosition();
-//            const vector3df camRot = camera->getRotation();
-            
-            //NSLog(@"%f %f %f --- %f %f %f", camPos.X, camPos.Y, camPos.Z, camRot.X, camRot.Y, camRot.Z);
 		}
 	}
 }

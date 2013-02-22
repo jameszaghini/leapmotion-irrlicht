@@ -81,6 +81,7 @@ private:
 	void initCamera();
     void initGUI(CGameEngine* game);
 	void initSky();
+	void initLights();
 	void initPlane();
 	void initHands();
 	void initBones();

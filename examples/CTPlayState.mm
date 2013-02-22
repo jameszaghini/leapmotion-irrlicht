@@ -43,10 +43,10 @@ void CPlayState::Init(CGameEngine* game)
 	
 	bulletHelper = new CTBulletHelper(driver, smgr);
 	
-	smgr->setAmbientLight(SColorf(1.0f, 1.0f, 1.0f));
-	
 	this->initPlane();
 	this->initCamera();
+	this->initSky();
+	this->initLights();
 	this->initHands();
 	this->initBones();
 	this->initGUI(game);
@@ -65,7 +65,7 @@ void CPlayState::initBones()
 	middleFingerBone = handsNode->getJointNode("finger_middle.01.L");
 	thumbBone = handsNode->getJointNode("thumb.01.L");
 	
-	camera->setTarget(leftHandBone->getAbsolutePosition());
+	//camera->setTarget(leftHandBone->getAbsolutePosition());
 }
 
 void CPlayState::getAllBones()
@@ -82,7 +82,7 @@ void CPlayState::getAllBones()
 		wchar_t* wc = new wchar_t[cSize];
 		mbstowcs (wc, bone->getName(), cSize);
 				
-		boneListBox->addItem(wc);
+//		boneListBox->addItem(wc);
 		
 		delete wc;
 		
@@ -95,8 +95,18 @@ void CPlayState::initSky()
 	[[NSFileManager defaultManager]
      changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
 	smgr->addSkyDomeSceneNode(driver->getTexture("skydome.jpg"),16,16,1.0f,2.0f);
-		
-	ISceneNode *cube = smgr->addCubeSceneNode(15.0f, 0, -1, core::vector3df(150,10,10));
+
+
+	//ISceneNode *cube = smgr->addCubeSceneNode(15.0f, 0, -1, core::vector3df(150,10,10));
+}
+
+void CPlayState::initLights()
+{
+	ILightSceneNode*  pLight = smgr->addLightSceneNode();
+	SLight & l = pLight->getLightData();
+	l.Type = ELT_DIRECTIONAL;
+	
+	smgr->setAmbientLight(SColorf(0.5f, 0.5f, 0.7f));	
 }
 
 void CPlayState::initCamera()
@@ -192,7 +202,8 @@ void CPlayState::initCamera()
 	camera->addAnimator(anim);
 	anim->drop(); // I'm done with the animator now
 	
-	camera->setPosition(vector3df(0, 100, 0));
+	camera->setPosition(vector3df(0, 170, 0));
+	camera->setRotation(vector3df(30, 120, 0));
 }
 
 void CPlayState::initGUI(CGameEngine* game)
@@ -206,13 +217,13 @@ void CPlayState::initGUI(CGameEngine* game)
     if (font)
         skin->setFont(font);
 	
-	vector3df rotation = handsNode->getRotation();
-    vector3df position = handsNode->getPosition();
+	vector3df rotation = camera->getRotation();
+    vector3df position = camera->getPosition();
 
 	int y = 10;
 	
-	boneListBox = env->addListBox(rect<s32>(10, y, 100, y+15));
-	boneListBox->setDrawBackground(true);
+//	boneListBox = env->addListBox(rect<s32>(10, y, 100, y+15));
+//	boneListBox->setDrawBackground(true);
 	
 	env->addStaticText(L"Rotation x,y,z", rect<s32>(10,y+=30,100,y+15));
 	
@@ -318,13 +329,13 @@ void CPlayState::HandleEvents(CGameEngine* game)
 		float y = (float)wcstod(posY->getText(), NULL);
 		float z = (float)wcstod(posZ->getText(), NULL);
 		
-		handsNode->setPosition(vector3df(x,y,z));
+		camera->setPosition(vector3df(x,y,z));
 		
 		x = (float)wcstod(rotX->getText(), NULL);
 		y = (float)wcstod(rotY->getText(), NULL);
 		z = (float)wcstod(rotZ->getText(), NULL);
 		
-		handsNode->setRotation(vector3df(x,y,z));
+		camera->setRotation(vector3df(x,y,z));
 	}
 	
     if(game->receiver.IsKeyDown(KEY_ESCAPE)) {
@@ -382,8 +393,10 @@ void CPlayState::Draw(CGameEngine* game)
 				if(fingers[0].isValid()) {
 					const Vector pinkyDirection = fingers[3].direction();
 					x = (pinkyDirection.pitch() * RAD_TO_DEG * -1) + 15.3019; // 15.3019 initial bone X val
-					pinkyFingerBone->setRotation(vector3df(x,pfr.Y,pfr.Z));
+				} else {
+					x = 15.3019;
 				}
+				pinkyFingerBone->setRotation(vector3df(x,pfr.Y,pfr.Z));
 				
 				// RING
                 const vector3df rfr = ringFingerBone->getRotation();

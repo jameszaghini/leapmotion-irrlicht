@@ -66,7 +66,7 @@ private:
 	Listener listener;
 	Controller controller;
     
-	ITimer* timer;
+	ITimer *timer;
 	u32 then, now;
 	
 	CTBulletHelper *bulletHelper;
@@ -89,6 +89,9 @@ private:
 	void getAllBones();
 	
 	void leapLog(const Frame frame);
+	
+	void updateHand();
+
 	
 };
 

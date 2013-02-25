@@ -51,9 +51,6 @@ void CPlayState::Init(CGameEngine* game)
 	this->initBones();
 	this->initGUI(game);
 	this->getAllBones();
-	
-	
-	//camera->addChild(handsNode);
 }
 
 void CPlayState::initBones()
@@ -64,8 +61,6 @@ void CPlayState::initBones()
 	ringFingerBone = handsNode->getJointNode("finger_ring.01.L");
 	middleFingerBone = handsNode->getJointNode("finger_middle.01.L");
 	thumbBone = handsNode->getJointNode("thumb.01.L");
-	
-	//camera->setTarget(leftHandBone->getAbsolutePosition());
 }
 
 void CPlayState::getAllBones()
@@ -95,9 +90,6 @@ void CPlayState::initSky()
 	[[NSFileManager defaultManager]
      changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
 	smgr->addSkyDomeSceneNode(driver->getTexture("skydome.jpg"),16,16,1.0f,2.0f);
-
-
-	//ISceneNode *cube = smgr->addCubeSceneNode(15.0f, 0, -1, core::vector3df(150,10,10));
 }
 
 void CPlayState::initLights()
@@ -105,8 +97,9 @@ void CPlayState::initLights()
 	ILightSceneNode*  pLight = smgr->addLightSceneNode();
 	SLight & l = pLight->getLightData();
 	l.Type = ELT_DIRECTIONAL;
+	l.CastShadows = true;
 	
-	smgr->setAmbientLight(SColorf(0.5f, 0.5f, 0.7f));	
+	smgr->setAmbientLight(SColorf(0.6f, 0.6f, 0.8f));
 }
 
 void CPlayState::initCamera()
@@ -347,9 +340,82 @@ void CPlayState::HandleEvents(CGameEngine* game)
 
 void CPlayState::Update(CGameEngine* game)
 {
-	now = timer->getTime();
 	
-	if(now > then + 100) {
+
+}
+
+void CPlayState::updateHand()
+{
+	// Get the most recent frame and report some basic information
+	const Frame frame = controller.frame();
+	//this->leapLog(frame);
+	
+	if (!frame.hands().empty()) {
+		
+		// Get the first hand
+		const Hand hand = frame.hands()[0];
+		
+		const Vector normal = hand.palmNormal();
+		const Vector direction = hand.direction();
+		
+		float x = ((direction.pitch() * RAD_TO_DEG) * -1) + 20;
+		float y = ((normal.roll() * RAD_TO_DEG)) + 273;
+		float z = ((direction.yaw() * RAD_TO_DEG)) + 19.82;
+		
+		const vector3df lhr = leftHandBone->getRotation();
+		
+		leftHandBone->setRotation(vector3df(x,y,lhr.Z));
+		
+		FingerList fingers = hand.fingers();
+		
+		// PINKY
+		const vector3df pfr = pinkyFingerBone->getRotation();
+		//				std::cout << "Pinky: " << pfr.X << std::endl;
+		if(fingers[0].isValid()) {
+			const Vector pinkyDirection = fingers[3].direction();
+			x = (pinkyDirection.pitch() * RAD_TO_DEG * -1) + 15.3019; // 15.3019 initial bone X val
+		} else {
+			x = 15.3019;
+		}
+		pinkyFingerBone->setRotation(vector3df(x,pfr.Y,pfr.Z));
+		
+		// RING
+		const vector3df rfr = ringFingerBone->getRotation();
+		//				std::cout << "Ring: " << rfr.X << std::endl;
+		if(fingers[1].isValid()) {
+			const Vector ringDirection = fingers[1].direction();
+			x = (ringDirection.pitch() * RAD_TO_DEG * -1) + 8.035;
+			ringFingerBone->setRotation(vector3df(x,rfr.Y,rfr.Z));
+		}
+		
+		// MIDDLE
+		const vector3df mfr = middleFingerBone->getRotation();
+		//				std::cout << "Middle: " << mfr.X << std::endl;
+		if(fingers[2].isValid()) {
+			const Vector middleDirection = fingers[0].direction();
+			x = (middleDirection.pitch() * RAD_TO_DEG * -1) + 11.344;
+			middleFingerBone->setRotation(vector3df(x,mfr.Y,mfr.Z));
+		}
+		
+		// INDEX
+		const vector3df ifr = indexFingerBone->getRotation();
+		//				std::cout << "Index: " << pfr.X << std::endl;
+		
+		if(fingers[3].isValid()) {
+			const Vector indexDirection = fingers[2].direction();
+			x = (indexDirection.pitch() * RAD_TO_DEG * -1) + 15.3019;
+			indexFingerBone->setRotation(vector3df(x,ifr.Y,ifr.Z));
+		}
+		
+		// THUMB
+		const vector3df tfr = thumbBone->getRotation();
+		//				std::cout << "Thumb: " << tfr.X << std::endl;
+		
+		if(fingers[4].isValid()) {
+			const Vector thumbDirection = fingers[4].direction();
+			x = (thumbDirection.pitch() * RAD_TO_DEG * -1) + 171.849;
+			thumbBone->setRotation(vector3df(x,tfr.Y,tfr.Z));
+		}
 	}
 }
 
@@ -363,79 +429,11 @@ void CPlayState::Draw(CGameEngine* game)
 
 		if (game->device->isWindowActive())
 		{
+			u32 starttime = timer->getTime();
+			
             //bulletHelper->UpdatePhysics(50);
-		
-            // Get the most recent frame and report some basic information
-            const Frame frame = controller.frame();
-			//this->leapLog(frame);
 
-			if (!frame.hands().empty()) {
-		           
-				// Get the first hand
-				const Hand hand = frame.hands()[0];
-				
-				const Vector normal = hand.palmNormal();
-				const Vector direction = hand.direction();
-
-				float x = ((direction.pitch() * RAD_TO_DEG) * -1) + 20;
-                float y = ((normal.roll() * RAD_TO_DEG)) + 273;
-				float z = ((direction.yaw() * RAD_TO_DEG)) + 19.82;
-                
-				const vector3df lhr = leftHandBone->getRotation();
-                
-				leftHandBone->setRotation(vector3df(x,y,lhr.Z));            
-                
-                FingerList fingers = hand.fingers();
-                
-                // PINKY                
-                const vector3df pfr = pinkyFingerBone->getRotation();
-//				std::cout << "Pinky: " << pfr.X << std::endl;
-				if(fingers[0].isValid()) {
-					const Vector pinkyDirection = fingers[3].direction();
-					x = (pinkyDirection.pitch() * RAD_TO_DEG * -1) + 15.3019; // 15.3019 initial bone X val
-				} else {
-					x = 15.3019;
-				}
-				pinkyFingerBone->setRotation(vector3df(x,pfr.Y,pfr.Z));
-				
-				// RING
-                const vector3df rfr = ringFingerBone->getRotation();
-//				std::cout << "Ring: " << rfr.X << std::endl;
-				if(fingers[1].isValid()) {
-					const Vector ringDirection = fingers[1].direction();
-					x = (ringDirection.pitch() * RAD_TO_DEG * -1) + 8.035;
-					ringFingerBone->setRotation(vector3df(x,rfr.Y,rfr.Z));
-				}
-				
-				// MIDDLE
-                const vector3df mfr = middleFingerBone->getRotation();
-//				std::cout << "Middle: " << mfr.X << std::endl;
-				if(fingers[2].isValid()) {
-					const Vector middleDirection = fingers[0].direction();
-					x = (middleDirection.pitch() * RAD_TO_DEG * -1) + 11.344;
-					middleFingerBone->setRotation(vector3df(x,mfr.Y,mfr.Z));
-				}
-				
-				// INDEX                
-                const vector3df ifr = indexFingerBone->getRotation();
-//				std::cout << "Index: " << pfr.X << std::endl;
-
-				if(fingers[3].isValid()) {
-					const Vector indexDirection = fingers[2].direction();
-					x = (indexDirection.pitch() * RAD_TO_DEG * -1) + 15.3019;
-					indexFingerBone->setRotation(vector3df(x,ifr.Y,ifr.Z));
-				}
-				
-				// THUMB
-                const vector3df tfr = thumbBone->getRotation();
-//				std::cout << "Thumb: " << tfr.X << std::endl;
-				
-				if(fingers[4].isValid()) {
-					const Vector thumbDirection = fingers[4].direction();
-					x = (thumbDirection.pitch() * RAD_TO_DEG * -1) + 171.849;
-					thumbBone->setRotation(vector3df(x,tfr.Y,tfr.Z));
-				}
-			}
+			this->updateHand();
             
 			driver->beginScene(true, true, video::SColor(0,200,200,200));
 						
@@ -454,6 +452,12 @@ void CPlayState::Draw(CGameEngine* game)
 				
 				game->device->setWindowCaption(str.c_str());
 				lastFPS = fps;
+			}
+			
+			u32 deltaTime = timer->getTime() - starttime;
+			//std::cout << deltaTime << std::endl;
+			if(deltaTime < 10) {
+				game->device->sleep(10 - deltaTime);
 			}
 		}
 	}

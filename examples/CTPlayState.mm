@@ -370,13 +370,19 @@ void CPlayState::updateHand()
 		
 		// PINKY
 		const vector3df pfr = pinkyFingerBone->getRotation();
-		//				std::cout << "Pinky: " << pfr.X << std::endl;
+		
+		x = 15.3019; // inital bone x val
 		if(fingers[0].isValid()) {
 			const Vector pinkyDirection = fingers[3].direction();
-			x = (pinkyDirection.pitch() * RAD_TO_DEG * -1) + 15.3019; // 15.3019 initial bone X val
-		} else {
-			x = 15.3019;
+			
+			// for some reason, even when the finger is valid
+			// I'd get 180 and it would make the pink bend back
+			// very unnaturally
+			if((pinkyDirection.pitch() * RAD_TO_DEG) != 180) { 
+				x = (pinkyDirection.pitch() * RAD_TO_DEG * -1) + 15.3019;
+			}
 		}
+
 		pinkyFingerBone->setRotation(vector3df(x,pfr.Y,pfr.Z));
 		
 		// RING

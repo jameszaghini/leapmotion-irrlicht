@@ -1,3 +1,7 @@
-A basic project for using Irrlicht 1.8, Live Leap Motion, FMOD & Bullet Physics
+An XCode project using Leap Motion with Irrlicht to control a hand model
 
-You'll likely need to copy libfmodex.dylib & libLeap.dylib to /usr/lib to get it to build for now
+![Screenshot](https://raw.github.com/jameszaghini/irllicht-bullet-liveleapmotion-fmod/hands/screen-shot.png)
+
+
+You'll likely need to copy libfmodex.dylib & libLeap.dylib to /usr/lib to get it to build.
+

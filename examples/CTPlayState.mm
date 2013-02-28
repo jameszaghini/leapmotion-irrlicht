@@ -12,93 +12,23 @@
 #include "CTGameState.h"
 #include "CTGameEngine.h"
 #include "CTPlayState.h"
-
-static btDiscreteDynamicsWorld *World;
-static core::list<btRigidBody *> Objects;
-static int GetRandInt(int TMax) { return rand() % TMax; }
+#include <sstream>
+#include <vector>
 
 CPlayState CPlayState::m_PlayState;
 
-// Create a box rigid body
-void CPlayState::CreateBox(const btVector3 &TPosition, const core::vector3df &TScale, btScalar TMass, std::string textureFile) {
-	
-	// Create an Irrlicht cube
-	scene::ISceneNode *Node = smgr->addCubeSceneNode(1.0f);
-	Node->setScale(TScale);
-	Node->setMaterialFlag(video::EMF_LIGHTING, 1);
-	Node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-	
-	io::path texturePath = textureFile.c_str();
-	
-	Node->setMaterialTexture(0, driver->getTexture(texturePath));
-	
-	// Set the initial position of the object
-	btTransform Transform;
-	Transform.setIdentity();
-	Transform.setOrigin(TPosition);
-	
-	// Give it a default MotionState
-	btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
-	
-	// Create the shape
-	btVector3 HalfExtents(TScale.X * 0.5f, TScale.Y * 0.5f, TScale.Z * 0.5f);
-	btCollisionShape *Shape = new btBoxShape(HalfExtents);
-	
-	// Add mass
-	btVector3 LocalInertia;
-	Shape->calculateLocalInertia(TMass, LocalInertia);
-	
-	// Create the rigid body object
-	btRigidBody *RigidBody = new btRigidBody(TMass, MotionState, Shape, LocalInertia);
-	
-	// Store a pointer to the irrlicht node so we can update it later
-	RigidBody->setUserPointer((void *)(Node));
-	
-	// Add it to the world
-	World->addRigidBody(RigidBody);
-	Objects.push_back(RigidBody);
-}
+static wchar_t temp;
 
-// Create a sphere rigid body
-void CPlayState::CreateSphere(const btVector3 &TPosition, btScalar TRadius, btScalar TMass) {
-	
-	// Create an Irrlicht sphere
-	scene::ISceneNode *Node = smgr->addSphereSceneNode(TRadius, 32);
-	Node->setMaterialFlag(video::EMF_LIGHTING, 1);
-	Node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-	Node->setMaterialTexture(0, driver->getTexture("water.jpg"));
-	
-	// Set the initial position of the object
-	btTransform Transform;
-	Transform.setIdentity();
-	Transform.setOrigin(TPosition);
-	
-	// Give it a default MotionState
-	btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
-	
-	// Create the shape
-	btCollisionShape *Shape = new btSphereShape(TRadius);
-	
-	// Add mass
-	btVector3 LocalInertia;
-	Shape->calculateLocalInertia(TMass, LocalInertia);
-	
-	// Create the rigid body object
-	btRigidBody *RigidBody = new btRigidBody(TMass, MotionState, Shape, LocalInertia);
-	
-	// Store a pointer to the irrlicht node so we can update it later
-	RigidBody->setUserPointer((void *)(Node));
-	
-	// Add it to the world
-	World->addRigidBody(RigidBody);
-	Objects.push_back(RigidBody);
+const wchar_t* getstring_float(float num)
+{
+	swprintf(&temp, 32, L"%3.2f", num);
+	return &temp;
 }
-
 
 void CPlayState::Init(CGameEngine* game)
 {
 	printf("CPlayState Init\n");
-   
+	
 	// Have the sample listener receive events from the controller
 	controller.addListener(listener);
     
@@ -108,18 +38,72 @@ void CPlayState::Init(CGameEngine* game)
     [[NSFileManager defaultManager]
      changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
 	
-	// Initialize bullet
-	btBroadphaseInterface *BroadPhase = new btAxisSweep3(btVector3(-1000, -1000, -1000), btVector3(1000, 1000, 1000));
-	btDefaultCollisionConfiguration *CollisionConfiguration = new btDefaultCollisionConfiguration();
-	btCollisionDispatcher *Dispatcher = new btCollisionDispatcher(CollisionConfiguration);
-	btSequentialImpulseConstraintSolver *Solver = new btSequentialImpulseConstraintSolver();
-	World = new btDiscreteDynamicsWorld(Dispatcher, BroadPhase, Solver, CollisionConfiguration);
-	
 	driver = game->device->getVideoDriver();
 	smgr = game->device->getSceneManager();
 	
-	smgr->loadScene("cube.irr");
+	bulletHelper = new CTBulletHelper(driver, smgr);
 	
+	this->initPlane();
+	this->initCamera();
+	this->initSky();
+	this->initLights();
+	this->initHands();
+	this->initBones();
+	this->initGUI(game);
+	this->getAllBones();
+}
+
+void CPlayState::initBones()
+{
+	leftHandBone = handsNode->getJointNode("hand.L");
+	indexFingerBone = handsNode->getJointNode("finger_index.01.L");
+	pinkyFingerBone = handsNode->getJointNode("finger_pinky.01.L");
+	ringFingerBone = handsNode->getJointNode("finger_ring.01.L");
+	middleFingerBone = handsNode->getJointNode("finger_middle.01.L");
+	thumbBone = handsNode->getJointNode("thumb.01.L");
+}
+
+void CPlayState::getAllBones()
+{
+	int numberOfBones = handsNode->getJointCount();
+	
+	std::vector<IBoneSceneNode*> bones;
+	
+	for(int i=0; i < numberOfBones; i++) {
+		
+		IBoneSceneNode *bone = handsNode->getJointNode(i);
+
+		const size_t cSize = strlen(bone->getName())+1;
+		wchar_t* wc = new wchar_t[cSize];
+		mbstowcs (wc, bone->getName(), cSize);
+				
+//		boneListBox->addItem(wc);
+		
+		delete wc;
+		
+		bones.push_back(bone);
+	}
+}
+
+void CPlayState::initSky()
+{
+	[[NSFileManager defaultManager]
+     changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
+	smgr->addSkyDomeSceneNode(driver->getTexture("skydome.jpg"),16,16,1.0f,2.0f);
+}
+
+void CPlayState::initLights()
+{
+	ILightSceneNode*  pLight = smgr->addLightSceneNode();
+	SLight & l = pLight->getLightData();
+	l.Type = ELT_DIRECTIONAL;
+	l.CastShadows = true;
+	
+	smgr->setAmbientLight(SColorf(0.6f, 0.6f, 0.8f));
+}
+
+void CPlayState::initCamera()
+{
 	SKeyMap *keyMap = new SKeyMap();
 	keyMap[0].Action = EKA_MOVE_FORWARD;
 	keyMap[0].KeyCode = KEY_KEY_W;
@@ -143,10 +127,9 @@ void CPlayState::Init(CGameEngine* game)
 	float moveSpeed = 0.15f;
 	float jumpSpeed = 7.f;
 	
+	camera = smgr->addCameraSceneNodeFPS(0, rotationSpeed,  moveSpeed, 0, keyMap, 6, true, jumpSpeed);
 	
-	ICameraSceneNode * camera = smgr->addCameraSceneNodeFPS(0, rotationSpeed,  moveSpeed, 0, keyMap, 6, true, jumpSpeed);
-	
-	// Create a meta triangle selector to hold several triangle selectors.
+    // Create a meta triangle selector to hold several triangle selectors.
 	scene::IMetaTriangleSelector * meta = smgr->createMetaTriangleSelector();
 	
 	/*
@@ -155,7 +138,7 @@ void CPlayState::Init(CGameEngine* game)
 	 more informed decision about which nodes to performs collision checks
 	 on; you could capture that information in the node name or Id.
 	 */
-	core::array<scene::ISceneNode *> nodes;
+	array<scene::ISceneNode *> nodes;
 	smgr->getSceneNodesFromType(scene::ESNT_ANY, nodes); // Find all nodes
 	
 	for (u32 i=0; i < nodes.size(); ++i)
@@ -205,44 +188,115 @@ void CPlayState::Init(CGameEngine* game)
 	 to the meta selector, create a collision response animator from that meta selector.
 	 */
 	
-	scene::ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(
-																			meta, camera, core::vector3df(3,3,3),
-																			core::vector3df(0,-35,0), core::vector3df(0,30,0));
+	scene::ISceneNodeAnimator* anim;
+	anim = smgr->createCollisionResponseAnimator(meta, camera, vector3df(3,3,3), vector3df(0,-10,0), vector3df(0,30,0));
 	meta->drop(); // I'm done with the meta selector now
 	
 	camera->addAnimator(anim);
 	anim->drop(); // I'm done with the animator now
 	
-	// And set the camera position so that it doesn't start off stuck in the geometry
-	camera->setPosition(core::vector3df(95.0f, 1.00f, -6.0f));
-	
-	scene::IAnimatedMeshSceneNode* node = 0;
-	scene::IMeshSceneNode *node2 = 0;
-	
-    [[NSFileManager defaultManager]
+	camera->setPosition(vector3df(0, 170, 0));
+	camera->setRotation(vector3df(30, 120, 0));
+}
+
+void CPlayState::initGUI(CGameEngine* game)
+{
+	[[NSFileManager defaultManager]
      changeCurrentDirectoryPath:[[NSBundle mainBundle] resourcePath]];
-    
-//	gunNode = smgr->addMeshSceneNode(smgr->getMesh("Hand_v.4.b3d"), 0, 0 | 0);
-//	gunNode->setPosition(core::vector3df(6,-11,30)); 
-//	gunNode->setRotation(core::vector3df(150,0,340));
-//	gunNode->setScale(core::vector3df(59, 59, 59));
 	
-	gunNode = smgr->addCubeSceneNode(1.0f);
-	gunNode->setPosition(core::vector3df(6,-11,30));
-	gunNode->setScale(core::vector3df(9, 9, 9));
-	gunNode->setMaterialFlag(video::EMF_LIGHTING, 1);
-	gunNode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+	env = game->device->getGUIEnvironment();
+	IGUISkin *skin = env->getSkin();
+	IGUIFont* font = env->getFont("fonthaettenschweiler.bmp");
+    if (font)
+        skin->setFont(font);
 	
-	gunMaterial.setTexture(0, driver->getTexture("water.jpg"));
-	gunMaterial.Lighting = true;
-	gunMaterial.NormalizeNormals = true;
+	vector3df rotation = camera->getRotation();
+    vector3df position = camera->getPosition();
+
+	int y = 10;
 	
-	gunNode->getMaterial(0) = gunMaterial;
+//	boneListBox = env->addListBox(rect<s32>(10, y, 100, y+15));
+//	boneListBox->setDrawBackground(true);
 	
-	camera->addChild(gunNode);
+	env->addStaticText(L"Rotation x,y,z", rect<s32>(10,y+=30,100,y+15));
 	
-	CreateBox(btVector3(0.0f, -50.0f, 0.0f), core::vector3df(20.0f, 1.0f, 20.0f), 0.0f, "concrete-1.jpg");
-	CreateBox(btVector3(0.0f, -72.0f, 0.0f), core::vector3df(100.0f, 1.0f, 100.0f), 0.0f, "concrete-1.jpg");
+	rotX = env->addEditBox(getstring_float(rotation.X), rect<s32>(10,y+=20,100,y+15));
+	rotY = env->addEditBox(getstring_float(rotation.Y), rect<s32>(10,y+=20,100,y+15));
+	rotZ = env->addEditBox(getstring_float(rotation.Z), rect<s32>(10,y+=20,100,y+15));
+	
+	env->addStaticText(L"Position x,y,z", rect<s32>(10,y+=30,100,y+15));
+	
+	posX = env->addEditBox(getstring_float(position.X), rect<s32>(10,y+=20,100,y+15));
+	posY = env->addEditBox(getstring_float(position.Y), rect<s32>(10,y+=20,100,y+15));
+	posZ = env->addEditBox(getstring_float(position.Z), rect<s32>(10,y+=20,100,y+15));
+}
+
+void CPlayState::leapLog(const Frame frame)
+{
+	//  std::cout << "Frame id: " << frame.id()
+	//  << ", timestamp: " << frame.timestamp()
+	//  << ", hands: " << frame.hands().count()
+	//  << ", fingers: " << frame.fingers().count()
+	//  << ", tools: " << frame.tools().count() << std::endl;
+	
+	if (!frame.hands().empty()) {
+		// Get the first hand
+		const Hand hand = frame.hands()[0];
+		
+		// Check if the hand has any fingers
+		const FingerList fingers = hand.fingers();
+		if (!fingers.empty()) {
+			// Calculate the hand's average finger tip position
+			Vector avgPos;
+			for (int i = 0; i < fingers.count(); ++i) {
+				
+				avgPos += fingers[i].tipPosition();
+			}
+			avgPos /= (float)fingers.count();
+			//                    std::cout << "Hand has " << fingers.count()
+			//                    << " fingers, average finger tip position" << avgPos << std::endl;
+		}
+		
+		// Get the hand's sphere radius and palm position
+		//                std::cout << "Hand sphere radius: " << hand.sphereRadius()
+		//                << " mm, palm position: " << hand.palmPosition() << std::endl;
+		
+		// Get the hand's normal vector and direction
+		const Vector normal = hand.palmNormal();
+		const Vector direction = hand.direction();
+		
+		// Calculate the hand's pitch, roll, and yaw angles
+		//                std::cout << "Hand pitch: " << direction.pitch() * RAD_TO_DEG << " degrees, "
+		//                << "roll: " << normal.roll() * RAD_TO_DEG << " degrees, "
+		//                << "yaw: " << direction.yaw() * RAD_TO_DEG << " degrees" << std::endl << std::endl;
+	}
+}
+
+void CPlayState::initPlane()
+{
+	planeMaterial.setTexture(0, driver->getTexture("concrete-1.jpg"));
+	planeMaterial.Lighting = true;
+	planeMaterial.NormalizeNormals = true;
+	
+	IMesh *plane = smgr->getGeometryCreator()->createPlaneMesh(dimension2df(1000,1000), dimension2du(1,1), &planeMaterial, dimension2df(1,1));
+	
+	ISceneNode *ground = smgr->addMeshSceneNode(plane);
+}
+
+void CPlayState::initHands()
+{	
+	handsNode = smgr->addAnimatedMeshSceneNode(smgr->getMesh("Hand_v.4.b3d"), 0, 0 | 0);
+	handsNode->setPosition(vector3df(0,-150,0));
+	handsNode->setRotation(vector3df(48,150,30));
+	handsNode->setScale(vector3df(120, 120, 120));
+	handsNode->setMaterialFlag(video::EMF_LIGHTING, 1);
+	handsNode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+	handsNode->setJointMode(irr::scene::EJUOR_CONTROL);
+	handsMaterial.setTexture(0, driver->getTexture("HAND_C.jpg"));
+	handsMaterial.Lighting = true;
+	handsMaterial.NormalizeNormals = true;
+	
+	handsNode->getMaterial(0) = handsMaterial;
 }
 
 void CPlayState::Cleanup()
@@ -260,119 +314,114 @@ void CPlayState::Resume()
 	printf("CPlayState Resume\n");
 }
 
-// Runs the physics simulation.
-// - TDeltaTime tells the simulation how much time has passed since the last frame so the simulation can run independently of the frame rate.
-void CPlayState::UpdatePhysics(u32 TDeltaTime) {
-	
-	World->stepSimulation(TDeltaTime * 0.001f, 60);
-	
-	btRigidBody *TObject;
-	// Relay the object's orientation to irrlicht
-	for(core::list<btRigidBody *>::Iterator it = Objects.begin(); it != Objects.end(); ++it) {
-		
-		//UpdateRender(*Iterator);
-		scene::ISceneNode *Node = static_cast<scene::ISceneNode *>((*it)->getUserPointer());
-		TObject = *it;
-		
-		// Set position
-		btVector3 Point = TObject->getCenterOfMassPosition();
-		Node->setPosition(core::vector3df((f32)Point[0], (f32)Point[1], (f32)Point[2]));
-		
-		// Set rotation
-		btVector3 EulerRotation;
-		QuaternionToEuler(TObject->getOrientation(), EulerRotation);
-		Node->setRotation(core::vector3df(EulerRotation[0], EulerRotation[1], EulerRotation[2]));
-		
-	}
-}
-
-// Converts a quaternion to an euler angle
-void CPlayState::QuaternionToEuler(const btQuaternion &TQuat, btVector3 &TEuler) {
-	btScalar W = TQuat.getW();
-	btScalar X = TQuat.getX();
-	btScalar Y = TQuat.getY();
-	btScalar Z = TQuat.getZ();
-	float WSquared = W * W;
-	float XSquared = X * X;
-	float YSquared = Y * Y;
-	float ZSquared = Z * Z;
-	
-	TEuler.setX(atan2f(2.0f * (Y * Z + X * W), -XSquared - YSquared + ZSquared + WSquared));
-	TEuler.setY(asinf(-2.0f * (X * Z - Y * W)));
-	TEuler.setZ(atan2f(2.0f * (X * Y + Z * W), XSquared - YSquared - ZSquared + WSquared));
-	TEuler *= core::RADTODEG;
-}
-
 void CPlayState::HandleEvents(CGameEngine* game)
 {
-    if(game->receiver.IsKeyPressed(KEY_KEY_P)) {
-        game->PushState(CPauseState::Instance());
+	if(game->receiver.IsKeyPressed(KEY_RETURN)) {
+		
+		float x = (float)wcstod(posX->getText(), NULL);
+		float y = (float)wcstod(posY->getText(), NULL);
+		float z = (float)wcstod(posZ->getText(), NULL);
+		
+		camera->setPosition(vector3df(x,y,z));
+		
+		x = (float)wcstod(rotX->getText(), NULL);
+		y = (float)wcstod(rotY->getText(), NULL);
+		z = (float)wcstod(rotZ->getText(), NULL);
+		
+		camera->setRotation(vector3df(x,y,z));
 	}
 	
-	core::vector3df rotation = gunNode->getRotation();
-
-	printf("%f, %f, %f\n", rotation.X, rotation.Y, rotation.Z);
-	
-	if(game->receiver.IsKeyPressed(KEY_KEY_X)) {
-		float x = rotation.X + 10;
-		if(x>360) x -= 360;
-		gunNode->setRotation(core::vector3df(x, rotation.Y, rotation.Z));
-	}
-	if(game->receiver.IsKeyPressed(KEY_KEY_Y)) {
-		float y = rotation.Y + 10;
-		if(y>360) y -= 360;
-		gunNode->setRotation(core::vector3df(rotation.X, y, rotation.Z));
-	}
-	if(game->receiver.IsKeyPressed(KEY_KEY_Z)) {
-		float z = rotation.Z + 10;
-		if(z>360) z -= 360;
-		gunNode->setRotation(core::vector3df(rotation.X, rotation.Y, z));
-	}
-	if(game->receiver.IsKeyPressed(KEY_KEY_J)) {
-		float x = rotation.X - 10;
-		if(x<0) x += 360;
-		gunNode->setRotation(core::vector3df(x, rotation.Y, rotation.Z));
-	}
-	if(game->receiver.IsKeyPressed(KEY_KEY_K)) {
-		float y = rotation.Y - 10;
-		if(y<0) y += 360;
-		gunNode->setRotation(core::vector3df(rotation.X, y, rotation.Z));
-	}
-	if(game->receiver.IsKeyPressed(KEY_KEY_L)) {
-		float z = rotation.Z - 10;
-		if(z<0) z += 360;
-		gunNode->setRotation(core::vector3df(rotation.X, rotation.Y, z));
-	}
     if(game->receiver.IsKeyDown(KEY_ESCAPE)) {
-        exit(0);
+		game->Quit();
     }
-    
-    if(game->receiver.IsKeyDown(KEY_KEY_O)) {
-		CreateBox(btVector3(GetRandInt(10) - 5.0f, 50.0f, GetRandInt(10) - 5.0f), core::vector3df(GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f), 1.0f, "stones.jpg");
-    }
-	
-    if(game->receiver.IsKeyDown(KEY_KEY_I)) {
-		CreateSphere(btVector3(GetRandInt(10) - 5.0f, 7.0f, GetRandInt(10) - 5.0f), GetRandInt(5) / 5.0f + 0.2f, 1.0f);
-    }
-	
-    if(game->receiver.GetMouseState().RightButtonPressed) {
-		printf("rmb pressed\n");
-		CreateBox(btVector3(GetRandInt(10) - 5.0f, 50.0f, GetRandInt(10) - 5.0f), core::vector3df(GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f, GetRandInt(3) + 0.5f), 1.0f, "stones.jpg");
-
-    }
-
-    if(game->receiver.GetMouseState().LeftButtonPressed) {
-		then = timer->getTime();
-	}
 	
 	game->receiver.reset();
 }
 
 void CPlayState::Update(CGameEngine* game)
 {
-	now = timer->getTime();
 	
-	if(now > then + 100) {
+
+}
+
+void CPlayState::updateHand()
+{
+	// Get the most recent frame and report some basic information
+	const Frame frame = controller.frame();
+	//this->leapLog(frame);
+	
+	if (!frame.hands().empty()) {
+		
+		// Get the first hand
+		const Hand hand = frame.hands()[0];
+		
+		const Vector normal = hand.palmNormal();
+		const Vector direction = hand.direction();
+		
+		float x = ((direction.pitch() * RAD_TO_DEG) * -1) + 20;
+		float y = ((normal.roll() * RAD_TO_DEG)) + 273;
+		float z = ((direction.yaw() * RAD_TO_DEG)) + 19.82;
+		
+		const vector3df lhr = leftHandBone->getRotation();
+		
+		leftHandBone->setRotation(vector3df(x,y,lhr.Z));
+		
+		FingerList fingers = hand.fingers();
+		
+		// PINKY
+		const vector3df pfr = pinkyFingerBone->getRotation();
+		
+		x = 15.3019; // inital bone x val
+		if(fingers[0].isValid()) {
+			const Vector pinkyDirection = fingers[3].direction();
+			
+			// for some reason, even when the finger is valid
+			// I'd get 180 and it would make the pink bend back
+			// very unnaturally
+			if((pinkyDirection.pitch() * RAD_TO_DEG) != 180) { 
+				x = (pinkyDirection.pitch() * RAD_TO_DEG * -1) + 15.3019;
+			}
+		}
+
+		pinkyFingerBone->setRotation(vector3df(x,pfr.Y,pfr.Z));
+		
+		// RING
+		const vector3df rfr = ringFingerBone->getRotation();
+		//				std::cout << "Ring: " << rfr.X << std::endl;
+		if(fingers[1].isValid()) {
+			const Vector ringDirection = fingers[1].direction();
+			x = (ringDirection.pitch() * RAD_TO_DEG * -1) + 8.035;
+			ringFingerBone->setRotation(vector3df(x,rfr.Y,rfr.Z));
+		}
+		
+		// MIDDLE
+		const vector3df mfr = middleFingerBone->getRotation();
+		//				std::cout << "Middle: " << mfr.X << std::endl;
+		if(fingers[2].isValid()) {
+			const Vector middleDirection = fingers[0].direction();
+			x = (middleDirection.pitch() * RAD_TO_DEG * -1) + 11.344;
+			middleFingerBone->setRotation(vector3df(x,mfr.Y,mfr.Z));
+		}
+		
+		// INDEX
+		const vector3df ifr = indexFingerBone->getRotation();
+		//				std::cout << "Index: " << pfr.X << std::endl;
+		
+		if(fingers[3].isValid()) {
+			const Vector indexDirection = fingers[2].direction();
+			x = (indexDirection.pitch() * RAD_TO_DEG * -1) + 15.3019;
+			indexFingerBone->setRotation(vector3df(x,ifr.Y,ifr.Z));
+		}
+		
+		// THUMB
+		const vector3df tfr = thumbBone->getRotation();
+		//				std::cout << "Thumb: " << tfr.X << std::endl;
+		
+		if(fingers[4].isValid()) {
+			const Vector thumbDirection = fingers[4].direction();
+			x = (thumbDirection.pitch() * RAD_TO_DEG * -1) + 171.849;
+			thumbBone->setRotation(vector3df(x,tfr.Y,tfr.Z));
+		}
 	}
 }
 
@@ -383,85 +432,26 @@ void CPlayState::Draw(CGameEngine* game)
 	bool soundplaying = false;
 	
 	if(game->device->run()) {
+
 		if (game->device->isWindowActive())
 		{
-
-            UpdatePhysics(50);
+			u32 starttime = timer->getTime();
 			
-		
-            // Get the most recent frame and report some basic information
-            const Frame frame = controller.frame();
-//            std::cout << "Frame id: " << frame.id()
-//            << ", timestamp: " << frame.timestamp()
-//            << ", hands: " << frame.hands().count()
-//            << ", fingers: " << frame.fingers().count()
-//            << ", tools: " << frame.tools().count() << std::endl;
-            
-            if (!frame.hands().empty()) {
-                // Get the first hand
-                const Hand hand = frame.hands()[0];
-                
-                // Check if the hand has any fingers
-                const FingerList fingers = hand.fingers();
-                if (!fingers.empty()) {
-                    // Calculate the hand's average finger tip position
-                    Vector avgPos;
-                    for (int i = 0; i < fingers.count(); ++i) {
-                        avgPos += fingers[i].tipPosition();
-                    }
-                    avgPos /= (float)fingers.count();
-//                    std::cout << "Hand has " << fingers.count()
-//                    << " fingers, average finger tip position" << avgPos << std::endl;
-                }
-                
-                // Get the hand's sphere radius and palm position
-//                std::cout << "Hand sphere radius: " << hand.sphereRadius()
-//                << " mm, palm position: " << hand.palmPosition() << std::endl;
-                
-                // Get the hand's normal vector and direction
-                const Vector normal = hand.palmNormal();
-                const Vector direction = hand.direction();
-                
-                // Calculate the hand's pitch, roll, and yaw angles
-//                std::cout << "Hand pitch: " << direction.pitch() * RAD_TO_DEG << " degrees, "
-//                << "roll: " << normal.roll() * RAD_TO_DEG << " degrees, "
-//                << "yaw: " << direction.yaw() * RAD_TO_DEG << " degrees" << std::endl << std::endl;
-               
-                // Get the hand's normal vector and direction
-//                const LeapVector *normal = [hand palmNormal];
-//                const LeapVector *direction = [hand direction];
-//                
-//                // Calculate the hand's pitch, roll, and yaw angles
-//                NSLog(@"Hand pitch: %f degrees, roll: %f degrees, yaw: %f degrees\n",
-//                      [direction pitch] * LEAP_RAD_TO_DEG,
-//                      [normal roll] * LEAP_RAD_TO_DEG,
-//                      [direction yaw] * LEAP_RAD_TO_DEG);
-                
-//				float x = (direction.pitch() * RAD_TO_DEG * -1) + 160;
-//                float y = (direction.yaw() * RAD_TO_DEG * 2) + 330;
-//                float z = (normal.roll() * RAD_TO_DEG * -1) + 330;
-               
-				float x = (direction.pitch() * RAD_TO_DEG * -1);
-                float y = (direction.yaw() * RAD_TO_DEG);
-                float z = (normal.roll() * RAD_TO_DEG);
-				
-               // printf("%f, %f, %f\n\n", x,y,z);
+            //bulletHelper->UpdatePhysics(50);
 
-                gunNode->setRotation(core::vector3df(x, y, z));
-            }
+			this->updateHand();
             
 			driver->beginScene(true, true, video::SColor(0,200,200,200));
 						
 			smgr->drawAll();
-
-			driver->draw2DImage(crosshairImage, core::position2d<s32>(game->getWidth()/2-24/2, game->getHeight()/2-24/2), core::rect<s32>(0, 0, 24, 24), 0, video::SColor(255,255,255,255), true);
+            env->drawAll();
 			
 			driver->endScene();
 			
 			int fps = driver->getFPS();
 			if (lastFPS != fps)
 			{
-				core::stringw str = L"Contratempo [";
+				stringw str = L"Leap [";
 				str += driver->getName();
 				str += "] FPS:";
 				str += fps;
@@ -470,8 +460,11 @@ void CPlayState::Draw(CGameEngine* game)
 				lastFPS = fps;
 			}
 			
-			//		irr::core::vector3df pos = camera->getAbsolutePosition();
-			//		printf("%f, %f, %f\n", pos.X, pos.Y, pos.Z);
+			u32 deltaTime = timer->getTime() - starttime;
+			//std::cout << deltaTime << std::endl;
+			if(deltaTime < 10) {
+				game->device->sleep(10 - deltaTime);
+			}
 		}
 	}
 }

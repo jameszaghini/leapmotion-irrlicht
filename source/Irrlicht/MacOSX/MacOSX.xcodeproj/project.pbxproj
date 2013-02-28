@@ -167,12 +167,12 @@
 		34EF91D80F65FCF6000B5651 /* CPLYMeshFileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 34EF91D60F65FCF6000B5651 /* CPLYMeshFileLoader.cpp */; };
 		34EF91DC0F65FD14000B5651 /* CPLYMeshWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 34EF91DA0F65FD14000B5651 /* CPLYMeshWriter.h */; };
 		34EF91DD0F65FD14000B5651 /* CPLYMeshWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 34EF91DB0F65FD14000B5651 /* CPLYMeshWriter.cpp */; };
+		38372C0816CFC7FB004EE581 /* skydome.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 38372C0716CFC7FB004EE581 /* skydome.jpg */; };
 		383D0AEB16B93D02000B713D /* Leap.h in Headers */ = {isa = PBXBuildFile; fileRef = 383D0AEA16B93D02000B713D /* Leap.h */; };
 		3858325B16C11C5800381D7F /* CTEventReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3858325916C11C5800381D7F /* CTEventReceiver.cpp */; };
 		3858326616C11C6700381D7F /* CTAudioController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3858325D16C11C6700381D7F /* CTAudioController.mm */; };
 		3858326716C11C6700381D7F /* CTGameEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3858325E16C11C6700381D7F /* CTGameEngine.cpp */; };
 		3858326816C11C6700381D7F /* CTGameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3858326016C11C6700381D7F /* CTGameState.cpp */; };
-		3858326916C11C6700381D7F /* CTPauseState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3858326216C11C6700381D7F /* CTPauseState.cpp */; };
 		3858326A16C11C6700381D7F /* CTPlayState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3858326516C11C6700381D7F /* CTPlayState.mm */; };
 		3858326C16C11E6D00381D7F /* fmod in Resources */ = {isa = PBXBuildFile; fileRef = 3858326B16C11E6D00381D7F /* fmod */; };
 		3858326E16C11EA900381D7F /* inc in Resources */ = {isa = PBXBuildFile; fileRef = 3858326D16C11EA900381D7F /* inc */; };
@@ -190,6 +190,9 @@
 		387463A016C52983009766F8 /* HAND_C.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3874639D16C52983009766F8 /* HAND_C.jpg */; };
 		387463A116C52983009766F8 /* HAND_N .jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3874639E16C52983009766F8 /* HAND_N .jpg */; };
 		387463A216C52983009766F8 /* HAND_S.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3874639F16C52983009766F8 /* HAND_S.jpg */; };
+		387463A516C5FBD2009766F8 /* CTBulletHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 387463A316C5FBD1009766F8 /* CTBulletHelper.cpp */; };
+		387463A716C5FC01009766F8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 387463A616C5FC01009766F8 /* main.cpp */; };
+		38C6BFE616CBA13400C6F31B /* fonthaettenschweiler.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 38C6BFE516CBA13400C6F31B /* fonthaettenschweiler.bmp */; };
 		38E1A4B516C280CD0003B3A5 /* cube.irr in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4B416C280CD0003B3A5 /* cube.irr */; };
 		38E1A4B816C281500003B3A5 /* cube.irr.meshes in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4B716C281500003B3A5 /* cube.irr.meshes */; };
 		38E1A4C116C281780003B3A5 /* concrete-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4B916C281780003B3A5 /* concrete-1.jpg */; };
@@ -201,7 +204,6 @@
 		38E1A4C716C281780003B3A5 /* default_skyboxdn.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4BF16C281780003B3A5 /* default_skyboxdn.jpg */; };
 		38E1A4C816C281780003B3A5 /* plaster-leaking.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4C016C281780003B3A5 /* plaster-leaking.jpg */; };
 		38E1A4CA16C281D60003B3A5 /* default_skyboxup.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4C916C281D60003B3A5 /* default_skyboxup.jpg */; };
-		38E1A4D216C28AB20003B3A5 /* Hand1.b3d in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4D116C28AB20003B3A5 /* Hand1.b3d */; };
 		38E1A4D416C28FB00003B3A5 /* Cavity.png in Resources */ = {isa = PBXBuildFile; fileRef = 38E1A4D316C28FB00003B3A5 /* Cavity.png */; };
 		4C364EA40A6C6DC2004CFBB4 /* COBJMeshFileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C364EA20A6C6DC2004CFBB4 /* COBJMeshFileLoader.cpp */; };
 		4C43EEC00A74A5C800F942FC /* CPakReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C43EEBE0A74A5C800F942FC /* CPakReader.cpp */; };
@@ -404,7 +406,6 @@
 		4CA25C080A485EAD00B4E469 /* jquant1.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C53E7390A485CD80014E966 /* jquant1.c */; };
 		4CA25C090A485EAD00B4E469 /* jquant2.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C53E73A0A485CD80014E966 /* jquant2.c */; };
 		4CA25C0A0A485EAD00B4E469 /* jutils.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C53E73B0A485CD80014E966 /* jutils.c */; };
-		4CA5CBB50A486A1F00ADB3D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C0054B60A48470500C844C2 /* main.cpp */; };
 		4CA5CBB60A486A2200ADB3D7 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4C53E1650A484C2C0014E966 /* MainMenu.nib */; };
 		4CA5CBB70A486A2500ADB3D7 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
 		4CC36B0F0A6B61DB0076C4B2 /* CSphereSceneNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CC36B0D0A6B61DB0076C4B2 /* CSphereSceneNode.cpp */; };
@@ -1088,6 +1089,7 @@
 		34EF91D60F65FCF6000B5651 /* CPLYMeshFileLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPLYMeshFileLoader.cpp; sourceTree = "<group>"; };
 		34EF91DA0F65FD14000B5651 /* CPLYMeshWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPLYMeshWriter.h; sourceTree = "<group>"; };
 		34EF91DB0F65FD14000B5651 /* CPLYMeshWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPLYMeshWriter.cpp; sourceTree = "<group>"; };
+		38372C0716CFC7FB004EE581 /* skydome.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = skydome.jpg; sourceTree = "<group>"; };
 		383D0AEA16B93D02000B713D /* Leap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Leap.h; path = ../source/Irrlicht/MacOSX/Leap.h; sourceTree = "<group>"; };
 		383D0AEC16B93D1F000B713D /* LeapMath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LeapMath.h; path = ../source/Irrlicht/MacOSX/LeapMath.h; sourceTree = "<group>"; };
 		3858325916C11C5800381D7F /* CTEventReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTEventReceiver.cpp; sourceTree = "<group>"; };
@@ -1098,8 +1100,6 @@
 		3858325F16C11C6700381D7F /* CTGameEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTGameEngine.h; sourceTree = "<group>"; };
 		3858326016C11C6700381D7F /* CTGameState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTGameState.cpp; sourceTree = "<group>"; };
 		3858326116C11C6700381D7F /* CTGameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTGameState.h; sourceTree = "<group>"; };
-		3858326216C11C6700381D7F /* CTPauseState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTPauseState.cpp; sourceTree = "<group>"; };
-		3858326316C11C6700381D7F /* CTPauseState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTPauseState.h; sourceTree = "<group>"; };
 		3858326416C11C6700381D7F /* CTPlayState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTPlayState.h; sourceTree = "<group>"; };
 		3858326516C11C6700381D7F /* CTPlayState.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CTPlayState.mm; sourceTree = "<group>"; };
 		3858326B16C11E6D00381D7F /* fmod */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fmod; sourceTree = "<group>"; };
@@ -1118,6 +1118,10 @@
 		3874639D16C52983009766F8 /* HAND_C.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = HAND_C.jpg; sourceTree = "<group>"; };
 		3874639E16C52983009766F8 /* HAND_N .jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "HAND_N .jpg"; sourceTree = "<group>"; };
 		3874639F16C52983009766F8 /* HAND_S.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = HAND_S.jpg; sourceTree = "<group>"; };
+		387463A316C5FBD1009766F8 /* CTBulletHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTBulletHelper.cpp; sourceTree = "<group>"; };
+		387463A416C5FBD1009766F8 /* CTBulletHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTBulletHelper.h; sourceTree = "<group>"; };
+		387463A616C5FC01009766F8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		38C6BFE516CBA13400C6F31B /* fonthaettenschweiler.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = fonthaettenschweiler.bmp; sourceTree = "<group>"; };
 		38E1A4B416C280CD0003B3A5 /* cube.irr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = cube.irr; sourceTree = "<group>"; };
 		38E1A4B716C281500003B3A5 /* cube.irr.meshes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = cube.irr.meshes; sourceTree = "<group>"; };
 		38E1A4B916C281780003B3A5 /* concrete-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "concrete-1.jpg"; sourceTree = "<group>"; };
@@ -1129,9 +1133,7 @@
 		38E1A4BF16C281780003B3A5 /* default_skyboxdn.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default_skyboxdn.jpg; sourceTree = "<group>"; };
 		38E1A4C016C281780003B3A5 /* plaster-leaking.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "plaster-leaking.jpg"; sourceTree = "<group>"; };
 		38E1A4C916C281D60003B3A5 /* default_skyboxup.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default_skyboxup.jpg; sourceTree = "<group>"; };
-		38E1A4D116C28AB20003B3A5 /* Hand1.b3d */ = {isa = PBXFileReference; lastKnownFileType = file; path = Hand1.b3d; sourceTree = "<group>"; };
 		38E1A4D316C28FB00003B3A5 /* Cavity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cavity.png; sourceTree = "<group>"; };
-		4C0054B60A48470500C844C2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = 12.TerrainRendering/main.cpp; sourceTree = "<group>"; };
 		4C364EA20A6C6DC2004CFBB4 /* COBJMeshFileLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = COBJMeshFileLoader.cpp; sourceTree = "<group>"; };
 		4C364EA30A6C6DC2004CFBB4 /* COBJMeshFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = COBJMeshFileLoader.h; sourceTree = "<group>"; };
 		4C43EEBE0A74A5C800F942FC /* CPakReader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CPakReader.cpp; sourceTree = "<group>"; };
@@ -2574,6 +2576,8 @@
 		38E1A4B616C2813D0003B3A5 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				38372C0716CFC7FB004EE581 /* skydome.jpg */,
+				38C6BFE516CBA13400C6F31B /* fonthaettenschweiler.bmp */,
 				3874639D16C52983009766F8 /* HAND_C.jpg */,
 				3874639E16C52983009766F8 /* HAND_N .jpg */,
 				3874639F16C52983009766F8 /* HAND_S.jpg */,
@@ -2581,7 +2585,6 @@
 				3874639716C44D02009766F8 /* stones.jpg */,
 				3874639816C44D02009766F8 /* water.jpg */,
 				38E1A4D316C28FB00003B3A5 /* Cavity.png */,
-				38E1A4D116C28AB20003B3A5 /* Hand1.b3d */,
 				38E1A4B916C281780003B3A5 /* concrete-1.jpg */,
 				38E1A4B416C280CD0003B3A5 /* cube.irr */,
 				38E1A4B716C281500003B3A5 /* cube.irr.meshes */,
@@ -2602,17 +2605,17 @@
 			children = (
 				3858325C16C11C6700381D7F /* CTAudioController.h */,
 				3858325D16C11C6700381D7F /* CTAudioController.mm */,
+				387463A316C5FBD1009766F8 /* CTBulletHelper.cpp */,
+				387463A416C5FBD1009766F8 /* CTBulletHelper.h */,
 				3858325916C11C5800381D7F /* CTEventReceiver.cpp */,
 				3858325A16C11C5800381D7F /* CTEventReceiver.h */,
 				3858325E16C11C6700381D7F /* CTGameEngine.cpp */,
 				3858325F16C11C6700381D7F /* CTGameEngine.h */,
 				3858326016C11C6700381D7F /* CTGameState.cpp */,
 				3858326116C11C6700381D7F /* CTGameState.h */,
-				3858326216C11C6700381D7F /* CTPauseState.cpp */,
-				3858326316C11C6700381D7F /* CTPauseState.h */,
 				3858326416C11C6700381D7F /* CTPlayState.h */,
 				3858326516C11C6700381D7F /* CTPlayState.mm */,
-				4C0054B60A48470500C844C2 /* main.cpp */,
+				387463A616C5FC01009766F8 /* main.cpp */,
 			);
 			name = classes;
 			path = ../../../examples;
@@ -3200,7 +3203,6 @@
 				38E1A4C716C281780003B3A5 /* default_skyboxdn.jpg in Resources */,
 				38E1A4C816C281780003B3A5 /* plaster-leaking.jpg in Resources */,
 				38E1A4CA16C281D60003B3A5 /* default_skyboxup.jpg in Resources */,
-				38E1A4D216C28AB20003B3A5 /* Hand1.b3d in Resources */,
 				38E1A4D416C28FB00003B3A5 /* Cavity.png in Resources */,
 				3874639916C44D02009766F8 /* stones.jpg in Resources */,
 				3874639A16C44D02009766F8 /* water.jpg in Resources */,
@@ -3208,6 +3210,8 @@
 				387463A016C52983009766F8 /* HAND_C.jpg in Resources */,
 				387463A116C52983009766F8 /* HAND_N .jpg in Resources */,
 				387463A216C52983009766F8 /* HAND_S.jpg in Resources */,
+				38C6BFE616CBA13400C6F31B /* fonthaettenschweiler.bmp in Resources */,
+				38372C0816CFC7FB004EE581 /* skydome.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3532,13 +3536,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CA5CBB50A486A1F00ADB3D7 /* main.cpp in Sources */,
 				3858325B16C11C5800381D7F /* CTEventReceiver.cpp in Sources */,
 				3858326616C11C6700381D7F /* CTAudioController.mm in Sources */,
 				3858326716C11C6700381D7F /* CTGameEngine.cpp in Sources */,
 				3858326816C11C6700381D7F /* CTGameState.cpp in Sources */,
-				3858326916C11C6700381D7F /* CTPauseState.cpp in Sources */,
 				3858326A16C11C6700381D7F /* CTPlayState.mm in Sources */,
+				387463A516C5FBD2009766F8 /* CTBulletHelper.cpp in Sources */,
+				387463A716C5FC01009766F8 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

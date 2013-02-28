@@ -31,11 +31,6 @@ void CGameEngine::Init(const char* title, int width, int height, int bpp, bool f
 	// create device and exit if creation failed
 	device = createDevice(EDT_OPENGL, dimensions, bpp, fullscreen, false, false, &receiver);
 	
-    //	if (device == 0)
-    //		return 1; // could not create selected driver.
-	
-	//device->setWindowCaption(L"Contra/tempo");
-	
 	device->getCursorControl()->setVisible(false);
 }
 
@@ -47,16 +42,9 @@ void CGameEngine::Cleanup()
 		states.pop_back();
 	}
 	
-	// switch back to windowed mode so other
-	// programs won't get accidentally resized
-//	if ( m_fullscreen ) {
-//		screen = SDL_SetVideoMode(640, 480, 0, 0);
-//	}
+	device->closeDevice();
 	
 	printf("CGameEngine Cleanup\n");
-	
-	// shutdown SDL
-//	SDL_Quit();
 }
 
 void CGameEngine::ChangeState(CGameState* state)

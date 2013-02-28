@@ -12,15 +12,15 @@
 #include "irrlicht.h"
 #include "CTEventReceiver.h"
 #include "CTGameState.h"
-#include "CTPauseState.h"
 #include "CTAudioController.h"
-#include  <BulletDynamics/btBulletDynamicsCommon.h>
 #include "Leap.h"
+#include "CTBulletHelper.h"
 
 using namespace irr;
 using namespace core;
 using namespace video;
 using namespace scene;
+using namespace gui;
 using namespace Leap;
 
 
@@ -41,34 +41,58 @@ public:
 		return &m_PlayState;
 	}
 
-	void CreateBox(const btVector3 &TPosition, const core::vector3df &TScale, btScalar TMass, std::string textureFile);
-	void CreateSphere(const btVector3 &TPosition, btScalar TRadius, btScalar TMass);
-	void UpdatePhysics(u32 TDeltaTime);
-	void QuaternionToEuler(const btQuaternion &TQuat, btVector3 &TEuler);
-	
 protected:
 	CPlayState() { }
 	
 private:
-	static CPlayState m_PlayState;
+    
+	IGUIEnvironment *env;
+	IGUIEditBox *posX, *posY, *posZ;
+	IGUIEditBox *rotX, *rotY, *rotZ;
+	IGUIListBox *boneListBox;
 	
+	static CPlayState m_PlayState;
+
 	IVideoDriver *driver;
 	ISceneManager *smgr;
-		
-	ITexture *crosshairImage;
     
-    IMeshSceneNode* gunNode;
-    SMaterial gunMaterial;
-    ISceneNode *gunFlareBillboardNode;
-    bool gunSoundPlaying = false;
+    ICameraSceneNode *camera;
+    
+    IAnimatedMeshSceneNode *handsNode;
+    SMaterial handsMaterial;
+	SMaterial planeMaterial;
 
 	// Create a sample listener and controller
 	Listener listener;
 	Controller controller;
     
-	ITimer* timer;
+	ITimer *timer;
 	u32 then, now;
-    
+	
+	CTBulletHelper *bulletHelper;
+	
+	IBoneSceneNode *leftHandBone;
+	IBoneSceneNode *indexFingerBone;
+	IBoneSceneNode *pinkyFingerBone;
+	IBoneSceneNode *ringFingerBone;
+	IBoneSceneNode *middleFingerBone;
+	IBoneSceneNode *thumbBone;
+	
+	void initCamera();
+    void initGUI(CGameEngine* game);
+	void initSky();
+	void initLights();
+	void initPlane();
+	void initHands();
+	void initBones();
+	
+	void getAllBones();
+	
+	void leapLog(const Frame frame);
+	
+	void updateHand();
+
+	
 };
 
 #endif /* defined(__Contratempo__CTPlayState__) */

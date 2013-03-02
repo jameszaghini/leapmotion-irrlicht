@@ -1,0 +1,19 @@
+Contents of /Users/jim/Developer/leap-irrlicht/source/Irrlicht/MacOSX/MacOSX_Prefix.pch
+
+x86_64-apple-darwin12.2.0
+-x
+c++
+-arch
+x86_64
+-fmessage-length=0
+-fpascal-strings
+-O0
+-fasm-blocks
+-fstrict-aliasing
+-g
+-I/Users/jim/Developer/leap-irrlicht/source/Irrlicht/MacOSX/build/Debug/include
+-I../../../include
+-F/Users/jim/Developer/leap-irrlicht/source/Irrlicht/MacOSX/build/Debug
+-DMACOSX
+-D_DEBUG
+SDK_PRODUCT_BUILD_VERSION=12C60

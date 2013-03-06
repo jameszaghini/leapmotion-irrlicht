@@ -78,6 +78,16 @@ private:
 	IBoneSceneNode *middleFingerBone;
 	IBoneSceneNode *thumbBone;
 	
+	float resetFingerToOriginalPosition(float originalPosition, float lastValue, float theXValue);
+	
+	float lastIndexValue, lastPinkyValue, lastRingValue, lastMiddleValue, lastThumbValue;
+
+	float pinkyX = 15.f;
+	float ringX = 8.f;
+	float middleX = 11.f;
+	float indexX = 15.f;
+	float thumbX = 172.f;
+	
 	void initCamera();
     void initGUI(CGameEngine* game);
 	void initSky();

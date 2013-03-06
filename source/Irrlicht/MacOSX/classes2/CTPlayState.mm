@@ -344,6 +344,25 @@ void CPlayState::Update(CGameEngine* game)
 
 }
 
+float CPlayState::resetFingerToOriginalPosition(float originalPosition, float lastValue, float theXValue) {
+	
+	if(theXValue != originalPosition) {
+		
+		// if we don't have a value, go back slowly to original position
+		if(lastValue > originalPosition) {
+			theXValue -= 1;
+		} else {
+			theXValue += 1;
+		}
+		
+		if(theXValue < (originalPosition+1) && theXValue > originalPosition) {
+			theXValue = originalPosition;
+		}
+	}
+	
+	return theXValue;
+}
+
 void CPlayState::updateHand()
 {
 	// Get the most recent frame and report some basic information
@@ -368,60 +387,70 @@ void CPlayState::updateHand()
 		
 		FingerList fingers = hand.fingers();
 		
-		// PINKY
-		const vector3df pfr = pinkyFingerBone->getRotation();
 		
-		x = 15.3019; // inital bone x val
-		if(fingers[0].isValid()) {
+		// PINKY
+		const vector3df pfr = pinkyFingerBone->getRotation();				
+		if(fingers[3].isValid()) {
 			const Vector pinkyDirection = fingers[3].direction();
 			
 			// for some reason, even when the finger is valid
 			// I'd get 180 and it would make the pink bend back
 			// very unnaturally
 			if((pinkyDirection.pitch() * RAD_TO_DEG) != 180) { 
-				x = (pinkyDirection.pitch() * RAD_TO_DEG * -1) + 15.3019;
-			}
+				pinkyX = (pinkyDirection.pitch() * RAD_TO_DEG * -1) + 15.3019;
+			}				
+		} else {
+			pinkyX = this->resetFingerToOriginalPosition(15.f, lastPinkyValue, pinkyX);
 		}
-
-		pinkyFingerBone->setRotation(vector3df(x,pfr.Y,pfr.Z));
+		lastPinkyValue = pinkyX;		
+		pinkyFingerBone->setRotation(vector3df(pinkyX,pfr.Y,pfr.Z));
+		
 		
 		// RING
 		const vector3df rfr = ringFingerBone->getRotation();
-		//				std::cout << "Ring: " << rfr.X << std::endl;
 		if(fingers[1].isValid()) {
 			const Vector ringDirection = fingers[1].direction();
-			x = (ringDirection.pitch() * RAD_TO_DEG * -1) + 8.035;
-			ringFingerBone->setRotation(vector3df(x,rfr.Y,rfr.Z));
+			ringX = (ringDirection.pitch() * RAD_TO_DEG * -1) + 8.035;
+		} else {
+			ringX = this->resetFingerToOriginalPosition(8.f, lastRingValue, ringX);
 		}
+		ringFingerBone->setRotation(vector3df(ringX,rfr.Y,rfr.Z));
+
 		
 		// MIDDLE
 		const vector3df mfr = middleFingerBone->getRotation();
-		//				std::cout << "Middle: " << mfr.X << std::endl;
 		if(fingers[2].isValid()) {
 			const Vector middleDirection = fingers[0].direction();
-			x = (middleDirection.pitch() * RAD_TO_DEG * -1) + 11.344;
-			middleFingerBone->setRotation(vector3df(x,mfr.Y,mfr.Z));
+			middleX = (middleDirection.pitch() * RAD_TO_DEG * -1) + 11.344;
+		} else {
+			middleX = this->resetFingerToOriginalPosition(11.f, lastMiddleValue, middleX);
 		}
-		
+		lastMiddleValue = middleX;
+		middleFingerBone->setRotation(vector3df(middleX,mfr.Y,mfr.Z));
+
+
 		// INDEX
-		const vector3df ifr = indexFingerBone->getRotation();
-		//				std::cout << "Index: " << pfr.X << std::endl;
-		
+		const vector3df ifr = indexFingerBone->getRotation();	
 		if(fingers[3].isValid()) {
 			const Vector indexDirection = fingers[2].direction();
-			x = (indexDirection.pitch() * RAD_TO_DEG * -1) + 15.3019;
-			indexFingerBone->setRotation(vector3df(x,ifr.Y,ifr.Z));
+			indexX = (indexDirection.pitch() * RAD_TO_DEG * -1) + 15.3019;
+		} else {
+			indexX = this->resetFingerToOriginalPosition(15.f, lastIndexValue, indexX);
 		}
+		lastIndexValue = indexX;
+		indexFingerBone->setRotation(vector3df(indexX,ifr.Y,ifr.Z));
 		
+
 		// THUMB
-		const vector3df tfr = thumbBone->getRotation();
-		//				std::cout << "Thumb: " << tfr.X << std::endl;
-		
+		const vector3df tfr = thumbBone->getRotation();	
 		if(fingers[4].isValid()) {
 			const Vector thumbDirection = fingers[4].direction();
-			x = (thumbDirection.pitch() * RAD_TO_DEG * -1) + 171.849;
-			thumbBone->setRotation(vector3df(x,tfr.Y,tfr.Z));
+			thumbX = (thumbDirection.pitch() * RAD_TO_DEG * -1) + 171.849;
+		} else {
+			thumbX = this->resetFingerToOriginalPosition(172.f, lastThumbValue, thumbX);
 		}
+		lastThumbValue = thumbX;
+		thumbBone->setRotation(vector3df(thumbX,tfr.Y,tfr.Z));
 	}
 }
 
